@@ -6,13 +6,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MusicCollection implements Storable {
+public class FileIOStorage implements Storable {
 
   private ArrayList<MusicItem> musicItems = new ArrayList<>();
   private int currentItemIndex = 0;
   private int musicCollectionLength = 0;
 
-  public MusicCollection() {
+  public FileIOStorage() {
     // TODO Auto-generated constructor stub
   }
 
@@ -21,6 +21,9 @@ public class MusicCollection implements Storable {
     // Using try with resources, Java 7 feature
     try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
       String artistLine;
+      
+      // Clear all details at start, in case of multiple loads
+      musicItems.clear();
 
       // Read in all music items into memory
       while ((artistLine = br.readLine()) != null) {

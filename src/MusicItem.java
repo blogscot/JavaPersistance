@@ -20,5 +20,4 @@ class MusicItem {
     return "MusicItem [ArtistName=" + ArtistName + ", AlbumName=" + AlbumName
         + "]";
   }
-
 }
