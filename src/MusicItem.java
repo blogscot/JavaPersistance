@@ -1,7 +1,7 @@
 class MusicItem {
   private String ArtistName;
   private String AlbumName;
-  
+
   public MusicItem(String artist, String album) {
     this.ArtistName = artist;
     this.AlbumName = album;
