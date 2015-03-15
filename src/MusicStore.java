@@ -65,10 +65,34 @@ public class MusicStore extends JFrame {
 		add(albumText);
 		add(prevButton);
 		add(nextButton);
+    
+    nextButton.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent e) {
 
+        // For now just show the first item
+        MusicItem item = musicCollection.getNext();
+        artistText.setText(item.getArtistName());
+        albumText.setText(item.getAlbumName());
+      }
+    });
+    
+    prevButton.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent e) {
+
+        // For now just show the first item
+        MusicItem item = musicCollection.getPrevious();
+        artistText.setText(item.getArtistName());
+        albumText.setText(item.getAlbumName());
+      }
+    });
 	}
 
   private void addMenuBar() {
+
     // Menu Bar strip
     menuBar = new JMenuBar();
 
@@ -82,7 +106,7 @@ public class MusicStore extends JFrame {
     fileSave = new JMenuItem("Save");
     fileMenu.add(fileSave);
     
-    // Join the Menu to the Menu Bar
+    // Join the menu to the menu bar
     menuBar.add(fileMenu);
     
     fileLoad.addActionListener(new ActionListener() {
@@ -99,7 +123,7 @@ public class MusicStore extends JFrame {
           musicCollection.load(file);
           
           // For now just show the first item
-          MusicItem item = musicCollection.getItem(0);
+          MusicItem item = musicCollection.getFirstItem();
           artistText.setText(item.getArtistName());
           albumText.setText(item.getAlbumName());
         }
@@ -131,6 +155,5 @@ public class MusicStore extends JFrame {
     
     // Join the MenuBar to the frame
     setJMenuBar(menuBar);
-    
   }
 }
