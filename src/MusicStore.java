@@ -3,13 +3,7 @@
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -39,7 +33,7 @@ public class MusicStore extends JFrame {
 	private JFileChooser fileChooser;
 	private File file;
 	
-	private ArrayList<MusicItem> musicItems = new ArrayList<>();
+	private MusicCollection musicCollection = new MusicCollection();
 	
 	public static void main(String[] args) {
   	
@@ -100,32 +94,17 @@ public class MusicStore extends JFrame {
         
         // Check if a file is selected
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-          file = fileChooser.getSelectedFile();
-          
-          // Using try with resources, Java 7 feature
-          try (BufferedReader br = new BufferedReader(new FileReader(file))){
-            String artistLine;
-            
-            // Read in all music items into memory
-            while((artistLine = br.readLine()) != null) {
-              String albumLine = br.readLine();
-              musicItems.add(new MusicItem(artistLine, albumLine));
-            }
 
-            
-            // For now just show the first item
-            MusicItem item = musicItems.get(0);
-            artistText.setText(item.getArtistName());
-            albumText.setText(item.getAlbumName());
+          file = fileChooser.getSelectedFile();
+          musicCollection.load(file);
           
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
+          // For now just show the first item
+          MusicItem item = musicCollection.getItem(0);
+          artistText.setText(item.getArtistName());
+          albumText.setText(item.getAlbumName());
         }
       }
     });
-    
-
     
     fileSave.addActionListener(new ActionListener() {
       
@@ -139,23 +118,13 @@ public class MusicStore extends JFrame {
         // Validate user input then check if a file is selected
         if (artist.length() != 0 && album.length() != 0 && 
             fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-          file = fileChooser.getSelectedFile();
           
-          // Using try with resources, Java 7 feature
-          try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
-            
-            bw.write(artist);
-            bw.newLine();
-            bw.write(album);
-            bw.newLine();
-            
-            // Clear user input
-            artistText.setText("");
-            albumText.setText("");
-            
-          } catch (IOException ex) {
-            System.out.println("File I/O error.");
-          }
+          file = fileChooser.getSelectedFile();
+          musicCollection.save(file, new MusicItem(artist, album));
+          
+          // Clear user input
+          artistText.setText("");
+          albumText.setText("");
         }
       }
     });
