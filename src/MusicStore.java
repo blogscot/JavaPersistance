@@ -13,6 +13,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 
+import Model.FileIOStorage;
+import Model.MusicItem;
+import Model.Storable;
+import Model.XMLStorage;
+
+
 public class MusicStore extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -26,13 +32,14 @@ public class MusicStore extends JFrame {
 
 	private JMenuBar menuBar;
 	private JMenu fileMenu, storageMenu;
-	private JMenuItem fileLoad, fileSave, selectfileIO;
+	private JMenuItem fileLoad, fileSave, programExit, selectfileIO, selectXML;
 
 	private JFileChooser fileChooser;
 	private File file;
 
 	private Storable musicStorage;
 	private Storable fileIOStorage = new FileIOStorage();
+	private Storable XMLStorage = new XMLStorage();
 
 	public static void main(String[] args) {
 
@@ -76,8 +83,8 @@ public class MusicStore extends JFrame {
 
 				// For now just show the first item
 				MusicItem item = musicStorage.getNext();
-				artistText.setText(item.getArtistName());
-				albumText.setText(item.getAlbumName());
+				artistText.setText(item.getArtist());
+				albumText.setText(item.getAlbum());
 			}
 		});
 
@@ -88,8 +95,8 @@ public class MusicStore extends JFrame {
 
 				// For now just show the first item
 				MusicItem item = musicStorage.getPrevious();
-				artistText.setText(item.getArtistName());
-				albumText.setText(item.getAlbumName());
+				artistText.setText(item.getArtist());
+				albumText.setText(item.getAlbum());
 			}
 		});
 	}
@@ -103,19 +110,24 @@ public class MusicStore extends JFrame {
 		// Menu Bar strip
 		menuBar = new JMenuBar();
 
-		// Only one menu (i.e. contains sub-items)
+		// Add a few menus (i.e. contains sub-items)
 		fileMenu = new JMenu("File");
-		storageMenu = new JMenu("Storage");
+		storageMenu = new JMenu("Storage Type");
 
-		// We only want to load or save
+		// We only want to load, save or exit
 		fileLoad = new JMenuItem("Load");
 		fileMenu.add(fileLoad);
 
 		fileSave = new JMenuItem("Save");
 		fileMenu.add(fileSave);
-		
+
+		programExit = new JMenuItem("Exit");
+    fileMenu.add(programExit);
+    
 		selectfileIO = new JMenuItem("FileIO");
+		selectXML = new JMenuItem("XML");
 		storageMenu.add(selectfileIO);
+		storageMenu.add(selectXML);
 
 		// Join the menu to the menu bar
 		menuBar.add(fileMenu);
@@ -136,8 +148,8 @@ public class MusicStore extends JFrame {
 
 					// For now just show the first item
 					MusicItem item = musicStorage.getFirstItem();
-					artistText.setText(item.getArtistName());
-					albumText.setText(item.getAlbumName());
+					artistText.setText(item.getArtist());
+					albumText.setText(item.getAlbum());
 				}
 			}
 		});
@@ -166,11 +178,36 @@ public class MusicStore extends JFrame {
 			}
 		});
 		
+		programExit.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        
+        // Thanks for all the fish!
+        System.exit(0);
+      }
+    });
+		
 		selectfileIO.addActionListener(new ActionListener() {
       
       @Override
       public void actionPerformed(ActionEvent e) {
         setStorageType(fileIOStorage);
+        // Clear user input
+        artistText.setText("");
+        albumText.setText("");
+      }
+    });
+		
+		selectXML.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        setStorageType(XMLStorage);
+        // Clear user input
+        artistText.setText("");
+        albumText.setText("");
+        
       }
     });
 

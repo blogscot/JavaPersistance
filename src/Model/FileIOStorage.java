@@ -1,3 +1,5 @@
+package Model;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 
 public class FileIOStorage implements Storable {
 
-  private ArrayList<MusicItem> musicItems = new ArrayList<>();
+  private ArrayList<MusicItem> musicList = new ArrayList<>();
   private int currentItemIndex = 0;
   private int musicCollectionLength = 0;
 
@@ -23,15 +25,15 @@ public class FileIOStorage implements Storable {
       String artistLine;
       
       // Clear all details at start, in case of multiple loads
-      musicItems.clear();
+      musicList.clear();
 
       // Read in all music items into memory
       while ((artistLine = br.readLine()) != null) {
         String albumLine = br.readLine();
-        musicItems.add(new MusicItem(artistLine, albumLine));
+        musicList.add(new MusicItem(artistLine, albumLine));
       }
 
-      musicCollectionLength = musicItems.size();
+      musicCollectionLength = musicList.size();
 
     } catch (IOException ex) {
       ex.printStackTrace();
@@ -43,9 +45,9 @@ public class FileIOStorage implements Storable {
     // Using try with resources, Java 7 feature
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, true))) {
 
-      bw.write(item.getArtistName());
+      bw.write(item.getArtist());
       bw.newLine();
-      bw.write(item.getAlbumName());
+      bw.write(item.getAlbum());
       bw.newLine();
 
     } catch (IOException ex) {
@@ -73,7 +75,7 @@ public class FileIOStorage implements Storable {
 
     // Check a collection exists and the index is valid
     if (musicCollectionLength > 0 && index < musicCollectionLength) {
-      return musicItems.get(index);
+      return musicList.get(index);
     }
     System.err.println("MusicCollection: Invalid index value: " + index);
     return new MusicItem("", "");
