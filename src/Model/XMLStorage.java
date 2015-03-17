@@ -61,19 +61,64 @@ public class XMLStorage implements Storable {
     }
   }
 
-  @Override
+  /**
+   * Returns the first MusicItem in the Music Collection
+   * 
+   * @return a MusicItem instance
+   */
   public MusicItem getFirstItem() {
-    return musicList.get(0);
+    return getItem(0);
   }
 
-  @Override
+  /**
+   * Returns the next MusicItem in the Music Collection
+   * 
+   * @return a MusicItem instance
+   */
   public MusicItem getNext() {
-    return getFirstItem();
+
+    if (musicCollectionLength > 0) {
+
+      // increment and wrap the index
+      // Note: modulus by 0 is not pretty
+      currentItemIndex = ++currentItemIndex % musicCollectionLength;
+      return getItem(currentItemIndex);
+    }
+    return new MusicItem("", "");
   }
 
-  @Override
+  /**
+   * Returns the previous MusicItem in the Music Collection
+   * 
+   * @return a MusicItem instance
+   */
   public MusicItem getPrevious() {
-    return getFirstItem();
-  }
 
+    if (musicCollectionLength > 0) {
+      if (--currentItemIndex < 0) {
+
+        // wrap the index
+        currentItemIndex = musicCollectionLength - 1;
+      }
+      return getItem(currentItemIndex);
+    }
+    return new MusicItem("", "");
+  }
+  
+  /**
+   * Returns the MusicItem at the index position
+   * 
+   * @param index
+   *          the MusicCollection index
+   * @return a MusicItem instance
+   */
+  private MusicItem getItem(int index) {
+
+    // Check a collection exists and the index is valid
+    if (musicCollectionLength > 0 && index < musicCollectionLength) {
+      return musicList.get(index);
+    }
+    System.err.println("MusicCollection: Invalid index value: " + index);
+    return new MusicItem("", "");
+  }
 }
