@@ -1,12 +1,15 @@
 package Model;
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 @XmlRootElement(name = "MusicItem")
 @XmlType(propOrder = { "artist", "album", "year", "genre" })
-public class MusicItem {
+public class MusicItem implements Serializable {
   
+  private static final long serialVersionUID = 1L;
   private String artist;
   private String album;
   private String year;

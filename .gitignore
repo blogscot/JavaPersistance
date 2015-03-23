@@ -1,5 +1,7 @@
 /bin/
 *.prefs
-storage.txt
-music-collection.xml
+*.txt
+*.xml
+*.ser
+
 

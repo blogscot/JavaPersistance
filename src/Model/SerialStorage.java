@@ -1,70 +1,66 @@
 package Model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class FileIOStorage implements Storable {
-
+public class SerialStorage implements Storable {
+  
   private ArrayList<MusicItem> musicList = new ArrayList<>();
   private int currentItemIndex = 0;
   private int musicCollectionLength = 0;
 
-  public FileIOStorage() {
-    // TODO Auto-generated constructor stub
-  }
-
+  @SuppressWarnings("unchecked")
+  @Override
   public void load(File filename) {
-
-    // Using try with resources, Java 7 feature
-    try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-      String artistLine;
+    
+    musicList.clear();
+    
+    try(FileInputStream fis = new FileInputStream(filename)) {
       
-      // Clear all details at start, in case of multiple loads
-      musicList.clear();
-
-      // Read in all music items into memory
-      while ((artistLine = br.readLine()) != null) {
-        String albumLine = br.readLine();
-        musicList.add(new MusicItem(artistLine, albumLine));
-      }
-
+      ObjectInputStream ois = new ObjectInputStream(fis);
+      musicList = (ArrayList<MusicItem>) ois.readObject();
+      ois.close();
+      
       musicCollectionLength = musicList.size();
-
-    } catch (IOException ex) {
-      ex.printStackTrace();
-    }
-  }
-
-  public void save(File filename, MusicItem item) {
-
-    // Using try with resources, Java 7 feature
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, true))) {
-
-      bw.write(Integer.toString(musicCollectionLength));
-      bw.newLine();
-      bw.write(item.getArtist());
-      bw.newLine();
-      bw.write(item.getAlbum());
-      bw.newLine();
       
-      // reload file 
-      load(filename);
-
-    } catch (IOException ex) {
-      System.out.println("File I/O error.");
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 
-  /**
-   * Returns the first MusicItem in the Music Collection
-   * 
-   * @return a MusicItem instance
-   */
+  @Override
+  public void save(File filename, MusicItem item) {
+    
+    musicList.add(item);
+    
+    try(FileOutputStream fos = new FileOutputStream(filename)) {
+      
+      ObjectOutputStream oos = new ObjectOutputStream(fos);
+      oos.writeObject(musicList);
+      oos.close();
+      
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
   public MusicItem getFirstItem() {
     return getItem(0);
   }
@@ -120,4 +116,5 @@ public class FileIOStorage implements Storable {
     }
     return new MusicItem("", "");
   }
+
 }

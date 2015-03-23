@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import javax.swing.JTextField;
 
 import Model.FileIOStorage;
 import Model.MusicItem;
+import Model.SerialStorage;
 import Model.Storable;
 import Model.XMLStorage;
 
@@ -32,7 +34,7 @@ public class MusicStore extends JFrame {
 
 	private JMenuBar menuBar;
 	private JMenu fileMenu, storageMenu;
-	private JMenuItem fileLoad, fileSave, programExit, selectfileIO, selectXML;
+	private JMenuItem fileLoad, fileSave, programExit, selectfileIO, selectXML, selectSerial;
 
 	private JFileChooser fileChooser;
 	private File file;
@@ -40,6 +42,7 @@ public class MusicStore extends JFrame {
 	private Storable musicStorage;
 	private Storable fileIOStorage = new FileIOStorage();
 	private Storable XMLStorage = new XMLStorage();
+	private Storable SerialStorage = new SerialStorage();
 
 	public static void main(String[] args) {
 
@@ -124,14 +127,22 @@ public class MusicStore extends JFrame {
 		programExit = new JMenuItem("Exit");
     fileMenu.add(programExit);
     
-		selectfileIO = new JMenuItem("FileIO");
+		selectfileIO = new JMenuItem("File IO");
 		selectXML = new JMenuItem("XML");
-		storageMenu.add(selectfileIO);
+    selectSerial = new JMenuItem("Serialization");
+
+    storageMenu.add(selectfileIO);
 		storageMenu.add(selectXML);
+		storageMenu.add(selectSerial);
 
 		// Join the menu to the menu bar
 		menuBar.add(fileMenu);
 		menuBar.add(storageMenu);
+		
+		Color initialMenuColor = storageMenu.getBackground();
+		Color selectedMenuColor = new Color(0xa0a0a0);
+    selectfileIO.setBackground(selectedMenuColor);
+
 
 		fileLoad.addActionListener(new ActionListener() {
 
@@ -193,6 +204,10 @@ public class MusicStore extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         setStorageType(fileIOStorage);
+        selectfileIO.setBackground(selectedMenuColor);
+        selectXML.setBackground(initialMenuColor);
+        selectSerial.setBackground(initialMenuColor);
+        
         // Clear user input
         artistText.setText("");
         albumText.setText("");
@@ -204,10 +219,29 @@ public class MusicStore extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         setStorageType(XMLStorage);
+        selectfileIO.setBackground(initialMenuColor);
+        selectXML.setBackground(selectedMenuColor);
+        selectSerial.setBackground(initialMenuColor);
+        
         // Clear user input
         artistText.setText("");
         albumText.setText("");
         
+      }
+    });
+		
+		selectSerial.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        setStorageType(SerialStorage);
+        selectfileIO.setBackground(initialMenuColor);
+        selectXML.setBackground(initialMenuColor);
+        selectSerial.setBackground(selectedMenuColor);
+        
+        // Clear user input
+        artistText.setText("");
+        albumText.setText("");
       }
     });
 
