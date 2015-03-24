@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface Storable {
 
-  public void load(File filename);
+  public void load(File filename) throws PersistenceException;
 
   public void save(File filename, MusicItem item);
 

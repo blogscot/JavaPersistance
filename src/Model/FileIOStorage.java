@@ -45,16 +45,11 @@ public class FileIOStorage implements Storable {
     // Using try with resources, Java 7 feature
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, true))) {
 
-      bw.write(Integer.toString(musicCollectionLength));
-      bw.newLine();
       bw.write(item.getArtist());
       bw.newLine();
       bw.write(item.getAlbum());
       bw.newLine();
       
-      // reload file 
-      load(filename);
-
     } catch (IOException ex) {
       System.out.println("File I/O error.");
     }

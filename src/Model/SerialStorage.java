@@ -17,7 +17,7 @@ public class SerialStorage implements Storable {
 
   @SuppressWarnings("unchecked")
   @Override
-  public void load(File filename) {
+  public void load(File filename) throws PersistenceException {
     
     musicList.clear();
     
@@ -29,15 +29,8 @@ public class SerialStorage implements Storable {
       
       musicCollectionLength = musicList.size();
       
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (Exception e) {
+      throw new PersistenceException();
     }
   }
 

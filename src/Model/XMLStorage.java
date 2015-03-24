@@ -16,7 +16,7 @@ public class XMLStorage implements Storable {
   private int musicCollectionLength = 0;
 
   @Override
-  public void load(File filename) {
+  public void load(File filename) throws PersistenceException {
 
     JAXBContext context;
     try {
@@ -25,13 +25,12 @@ public class XMLStorage implements Storable {
       Unmarshaller unmrsh = context.createUnmarshaller();
       XMLMusicCollection musicCollection = (XMLMusicCollection) unmrsh
           .unmarshal(new FileReader(filename));
-      musicList = musicCollection.getList();
       
+      musicList = musicCollection.getList();
       musicCollectionLength = musicList.size();
       
     } catch (JAXBException | IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      throw new PersistenceException();
     }
   }
 

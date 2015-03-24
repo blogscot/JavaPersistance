@@ -12,10 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import Model.FileIOStorage;
 import Model.MusicItem;
+import Model.PersistenceException;
 import Model.SerialStorage;
 import Model.Storable;
 import Model.XMLStorage;
@@ -43,10 +45,12 @@ public class MusicStore extends JFrame {
 	private Storable fileIOStorage = new FileIOStorage();
 	private Storable XMLStorage = new XMLStorage();
 	private Storable SerialStorage = new SerialStorage();
+	
+	private static MusicStore frame;
 
 	public static void main(String[] args) {
 
-		MusicStore frame = new MusicStore();
+		frame = new MusicStore();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(280, 160);
 		frame.setTitle("My Music Collection");
@@ -155,12 +159,16 @@ public class MusicStore extends JFrame {
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 
 					file = fileChooser.getSelectedFile();
-					musicStorage.load(file);
-
-					// For now just show the first item
-					MusicItem item = musicStorage.getFirstItem();
-					artistText.setText(item.getArtist());
-					albumText.setText(item.getAlbum());
+					try {
+					  musicStorage.load(file);
+            
+					  // For now just show the first item
+					  MusicItem item = musicStorage.getFirstItem();
+					  artistText.setText(item.getArtist());
+					  albumText.setText(item.getAlbum());
+          } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(frame, "Error Reading File.","Error", JOptionPane.ERROR_MESSAGE);
+          }
 				}
 			}
 		});
