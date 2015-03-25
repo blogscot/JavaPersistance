@@ -1,7 +1,9 @@
 /bin/
 *.prefs
+*.db
 *.txt
 *.xml
 *.ser
 
 
+/libs/

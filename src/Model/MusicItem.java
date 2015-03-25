@@ -12,7 +12,7 @@ public class MusicItem implements Serializable {
   private static final long serialVersionUID = 1L;
   private String artist;
   private String album;
-  private String year;
+  private int year;
   private String genre;
 
   // Default constructor
@@ -35,10 +35,10 @@ public class MusicItem implements Serializable {
   public void setAlbum(String album) {
     this.album = album;
   }
-  public String getYear() {
+  public int getYear() {
     return year;
   }
-  public void setYear(String year) {
+  public void setYear(int year) {
     this.year = year;
   }
   public String getGenre() {

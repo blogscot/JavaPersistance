@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import Model.FileIOStorage;
+import Model.SQLStorage;
 import Model.MusicItem;
 import Model.PersistenceException;
 import Model.SerialStorage;
@@ -36,7 +37,7 @@ public class MusicStore extends JFrame {
 
 	private JMenuBar menuBar;
 	private JMenu fileMenu, storageMenu;
-	private JMenuItem fileLoad, fileSave, programExit, selectfileIO, selectXML, selectSerial;
+	private JMenuItem fileLoad, fileSave, programExit, selectfileIO, selectXML, selectSerial, selectSQL;
 
 	private JFileChooser fileChooser;
 	private File file;
@@ -45,6 +46,7 @@ public class MusicStore extends JFrame {
 	private Storable fileIOStorage = new FileIOStorage();
 	private Storable XMLStorage = new XMLStorage();
 	private Storable SerialStorage = new SerialStorage();
+	private Storable SQLStorage = new SQLStorage();
 	
 	private static MusicStore frame;
 
@@ -53,7 +55,7 @@ public class MusicStore extends JFrame {
 		frame = new MusicStore();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(280, 160);
-		frame.setTitle("My Music Collection");
+		frame.setTitle("Iain's Music Collection");
 		frame.setVisible(true);
 		frame.setResizable(false);
 	}
@@ -134,10 +136,12 @@ public class MusicStore extends JFrame {
 		selectfileIO = new JMenuItem("File IO");
 		selectXML = new JMenuItem("XML");
     selectSerial = new JMenuItem("Serialization");
+    selectSQL = new JMenuItem("SQLite");
 
     storageMenu.add(selectfileIO);
 		storageMenu.add(selectXML);
 		storageMenu.add(selectSerial);
+		storageMenu.add(selectSQL);
 
 		// Join the menu to the menu bar
 		menuBar.add(fileMenu);
@@ -215,6 +219,7 @@ public class MusicStore extends JFrame {
         selectfileIO.setBackground(selectedMenuColor);
         selectXML.setBackground(initialMenuColor);
         selectSerial.setBackground(initialMenuColor);
+        selectSQL.setBackground(initialMenuColor);        
         
         // Clear user input
         artistText.setText("");
@@ -230,6 +235,7 @@ public class MusicStore extends JFrame {
         selectfileIO.setBackground(initialMenuColor);
         selectXML.setBackground(selectedMenuColor);
         selectSerial.setBackground(initialMenuColor);
+        selectSQL.setBackground(initialMenuColor);        
         
         // Clear user input
         artistText.setText("");
@@ -246,10 +252,28 @@ public class MusicStore extends JFrame {
         selectfileIO.setBackground(initialMenuColor);
         selectXML.setBackground(initialMenuColor);
         selectSerial.setBackground(selectedMenuColor);
+        selectSQL.setBackground(initialMenuColor);        
         
         // Clear user input
         artistText.setText("");
         albumText.setText("");
+      }
+    });
+		
+		selectSQL.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        setStorageType(SQLStorage);
+        selectfileIO.setBackground(initialMenuColor);
+        selectXML.setBackground(initialMenuColor);
+        selectSerial.setBackground(initialMenuColor);
+        selectSQL.setBackground(selectedMenuColor);
+        
+        // Clear user input
+        artistText.setText("");
+        albumText.setText("");        
+        
       }
     });
 

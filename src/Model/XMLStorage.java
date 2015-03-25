@@ -17,8 +17,8 @@ public class XMLStorage extends Storable {
     try {
       context = JAXBContext.newInstance(XMLMusicCollection.class);
 
-      Unmarshaller unmrsh = context.createUnmarshaller();
-      XMLMusicCollection musicCollection = (XMLMusicCollection) unmrsh
+      Unmarshaller unmarshaller = context.createUnmarshaller();
+      XMLMusicCollection musicCollection = (XMLMusicCollection) unmarshaller
           .unmarshal(new FileReader(filename));
       
       musicList = musicCollection.getList();
@@ -35,7 +35,7 @@ public class XMLStorage extends Storable {
     MusicItem item1 = new MusicItem();
     item1.setArtist(item.getArtist());
     item1.setAlbum(item.getAlbum());
-    item1.setYear("2015");
+    item1.setYear(2015);
     item1.setGenre("progressive-rock");
     musicList.add(item1);
 
