@@ -31,10 +31,17 @@ public class SerialStorage extends Storable {
   }
 
   @Override
-  public void save(File filename, MusicItem item) {
+  public void add(MusicItem item) {
     
     musicList.add(item);
     
+    // Recalculate new List size
+    musicCollectionLength = musicList.size();    
+  }
+
+  @Override
+  public void save(File filename) {
+
     try(FileOutputStream fos = new FileOutputStream(filename)) {
       
       ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -48,11 +55,5 @@ public class SerialStorage extends Storable {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-  }
-
-  @Override
-  public void add(MusicItem item) {
-    // TODO Auto-generated method stub
-    
   }
 }

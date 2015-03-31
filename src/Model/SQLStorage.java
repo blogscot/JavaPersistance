@@ -19,14 +19,19 @@ public class SQLStorage extends Storable {
   }
 
   @Override
-  public void save(File filename, MusicItem item) {
-
-    db.save(item);
-  }
-
-  @Override
   public void add(MusicItem item) {
-    // TODO Auto-generated method stub
+    musicList.add(item);
+    db.save(item);
     
+    // Recalculate new List size
+    musicCollectionLength = musicList.size();    
   }
+
+  /**
+   * The Liskov Substitution Principle is being bent here.
+   * 
+   * This is a stub function
+   */
+  @Override
+  public void save(File filename) { }
 }

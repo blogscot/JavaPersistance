@@ -11,7 +11,7 @@ public abstract class Storable {
 
   public abstract void load(File filename) throws PersistenceException;
   public abstract void add(MusicItem item);
-  public abstract void save(File filename, MusicItem item);
+  public abstract void save(File filename);
 
   /**
    * Returns the first MusicItem in the Music Collection

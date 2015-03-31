@@ -30,7 +30,7 @@ public class XMLStorage extends Storable {
   }
 
   @Override
-  public void save(File filename, MusicItem item) {
+  public void add(MusicItem item) {
     
     MusicItem item1 = new MusicItem();
     item1.setArtist(item.getArtist());
@@ -38,6 +38,13 @@ public class XMLStorage extends Storable {
     item1.setYear(2015);
     item1.setGenre("progressive-rock");
     musicList.add(item1);
+    
+    // Recalculate new List size    
+    musicCollectionLength = musicList.size();
+  }
+
+  @Override
+  public void save(File filename) {
 
     // create musicCollection
     XMLMusicCollection musicCollection = new XMLMusicCollection();
@@ -53,11 +60,5 @@ public class XMLStorage extends Storable {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-  }
-
-  @Override
-  public void add(MusicItem item) {
-    // TODO Auto-generated method stub
-    
   }
 }

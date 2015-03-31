@@ -145,16 +145,26 @@ public class MusicStore extends JFrame implements ActionListener {
 		setJMenuBar(menuBar);
 	}
 
-	public void clearSelections() {
+	private void clearSelections() {
     selectfileIO.setBackground(initialMenuColor);
     selectXML.setBackground(initialMenuColor);
     selectSerial.setBackground(initialMenuColor);
     selectSQL.setBackground(initialMenuColor); 
 	}
 	
-	public void clearUserInputs() {
+	private void clearUserInputs() {
     artistText.setText("");
     albumText.setText("");
+	}
+	
+	private boolean isUserInputValid() {
+    String artist = artistText.getText();
+    String album = albumText.getText();
+    
+    if (artist.length() != 0 && album.length() != 0) { 
+      return true; 
+    }
+    return false;
 	}
 	
   @Override
@@ -168,12 +178,13 @@ public class MusicStore extends JFrame implements ActionListener {
       albumText.setText(item.getAlbum());
     } else if (e.getSource() == addButton) {
 
-      String artist = artistText.getText();
-      String album = albumText.getText();
-      musicStorage.add(new MusicItem(artist, album));
-      
-      clearUserInputs();
-
+      if (isUserInputValid()) {
+        String artist = artistText.getText();
+        String album = albumText.getText();
+  
+        musicStorage.add(new MusicItem(artist, album));
+        clearUserInputs();
+      }
     } 
     else if (e.getSource() == prevButton) {
       
@@ -201,20 +212,17 @@ public class MusicStore extends JFrame implements ActionListener {
     } else if (e.getSource() == fileSave) {
 
       fileChooser.setCurrentDirectory(new File("./"));
-      String artist = artistText.getText();
-      String album = albumText.getText();
   
-      // Validate user input then check if a file is selected
-      if (artist.length() != 0
-          && album.length() != 0
-          && fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+      // check if a file is selected
+      if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
   
         file = fileChooser.getSelectedFile();
-        musicStorage.save(file, new MusicItem(artist, album));
+        musicStorage.save(file);
   
         JOptionPane.showMessageDialog(frame, "File Saved Successfully","File Saved", JOptionPane.PLAIN_MESSAGE);
       }
     } else if (e.getSource() == programExit) {
+
       // Thanks for all the fish!
       System.exit(0);
     } else if (e.getSource() == selectfileIO) {
