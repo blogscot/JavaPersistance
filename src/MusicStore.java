@@ -32,8 +32,7 @@ public class MusicStore extends JFrame implements ActionListener {
 	private JLabel albumLabel;
 	private JTextField albumText;
 
-	private JButton nextButton;
-	private JButton prevButton;
+	private JButton nextButton, prevButton, addButton;
 
 	private JMenuBar menuBar;
 	private JMenu fileMenu, storageMenu;
@@ -66,6 +65,7 @@ public class MusicStore extends JFrame implements ActionListener {
 
 	  fileChooser = new JFileChooser();
 		prevButton = new JButton("<<");
+		addButton = new JButton("Add");
 		nextButton = new JButton(">>");
 
 		artistLabel = new JLabel("Artist Name:");
@@ -82,12 +82,14 @@ public class MusicStore extends JFrame implements ActionListener {
 		add(albumLabel);
 		add(albumText);
 		add(prevButton);
+		add(addButton);
 		add(nextButton);
 
 		// Let's start with File IO storage
 		setStorageType(fileIOStorage);
 
 		nextButton.addActionListener(this);
+		addButton.addActionListener(this);
 		prevButton.addActionListener(this);
 	}
 	
@@ -150,17 +152,31 @@ public class MusicStore extends JFrame implements ActionListener {
     selectSQL.setBackground(initialMenuColor); 
 	}
 	
+	public void clearUserInputs() {
+    artistText.setText("");
+    albumText.setText("");
+	}
+	
   @Override
   public void actionPerformed(ActionEvent e) {
+
     if (e.getSource() == nextButton) {
       
       // For now just show the first item
       MusicItem item = musicStorage.getNext();
       artistText.setText(item.getArtist());
       albumText.setText(item.getAlbum());
-    } else if (e.getSource() == prevButton) {
+    } else if (e.getSource() == addButton) {
+
+      String artist = artistText.getText();
+      String album = albumText.getText();
+      musicStorage.add(new MusicItem(artist, album));
       
-      // For now just show the first item
+      clearUserInputs();
+
+    } 
+    else if (e.getSource() == prevButton) {
+      
       MusicItem item = musicStorage.getPrevious();
       artistText.setText(item.getArtist());
       albumText.setText(item.getAlbum());
@@ -175,7 +191,6 @@ public class MusicStore extends JFrame implements ActionListener {
         try {
           musicStorage.load(file);
           
-          // For now just show the first item
           MusicItem item = musicStorage.getFirstItem();
           artistText.setText(item.getArtist());
           albumText.setText(item.getAlbum());
@@ -197,9 +212,7 @@ public class MusicStore extends JFrame implements ActionListener {
         file = fileChooser.getSelectedFile();
         musicStorage.save(file, new MusicItem(artist, album));
   
-        // Clear user input
-        artistText.setText("");
-        albumText.setText("");
+        JOptionPane.showMessageDialog(frame, "File Saved Successfully","File Saved", JOptionPane.PLAIN_MESSAGE);
       }
     } else if (e.getSource() == programExit) {
       // Thanks for all the fish!
@@ -210,36 +223,31 @@ public class MusicStore extends JFrame implements ActionListener {
       clearSelections();
       selectfileIO.setBackground(selectedMenuColor);
       
-      // Clear user input
-      artistText.setText("");
-      albumText.setText("");
+      clearUserInputs();
+      
     } else if (e.getSource() == selectXML) {
 
       setStorageType(XMLStorage);
       clearSelections();
       selectXML.setBackground(selectedMenuColor);
       
-      // Clear user input
-      artistText.setText("");
-      albumText.setText("");
+      clearUserInputs();
+      
     } else if (e.getSource() == selectSerial) {
 
       setStorageType(SerialStorage);
       clearSelections();
       selectSerial.setBackground(selectedMenuColor);
       
-      // Clear user input
-      artistText.setText("");
-      albumText.setText("");
+      clearUserInputs();
+      
     } else if (e.getSource() == selectSQL) {
 
       setStorageType(SQLStorage);
       clearSelections();
       selectSQL.setBackground(selectedMenuColor);
       
-      // Clear user input
-      artistText.setText("");
-      albumText.setText("");
+      clearUserInputs();
     }
   }
 }

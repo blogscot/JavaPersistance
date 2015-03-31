@@ -10,7 +10,7 @@ public abstract class Storable {
   protected int musicCollectionLength = 0;
 
   public abstract void load(File filename) throws PersistenceException;
-
+  public abstract void add(MusicItem item);
   public abstract void save(File filename, MusicItem item);
 
   /**

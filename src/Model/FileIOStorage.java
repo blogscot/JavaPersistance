@@ -34,16 +34,23 @@ public class FileIOStorage extends Storable {
       ex.printStackTrace();
     }
   }
+  
+  public void add(MusicItem item) {
+    musicList.add(item);
+    musicCollectionLength = musicList.size();
+  }
 
   public void save(File filename, MusicItem item) {
 
     // Using try with resources, Java 7 feature
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, true))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, false))) {
 
-      bw.write(item.getArtist());
-      bw.newLine();
-      bw.write(item.getAlbum());
-      bw.newLine();
+      for (MusicItem i: musicList) {
+        bw.write(i.getArtist());
+        bw.newLine();
+        bw.write(i.getAlbum());
+        bw.newLine();
+      }
       
     } catch (IOException ex) {
       System.out.println("File I/O error.");

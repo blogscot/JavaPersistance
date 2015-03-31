@@ -23,4 +23,10 @@ public class SQLStorage extends Storable {
 
     db.save(item);
   }
+
+  @Override
+  public void add(MusicItem item) {
+    // TODO Auto-generated method stub
+    
+  }
 }

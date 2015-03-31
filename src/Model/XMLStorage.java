@@ -54,4 +54,10 @@ public class XMLStorage extends Storable {
       e.printStackTrace();
     }
   }
+
+  @Override
+  public void add(MusicItem item) {
+    // TODO Auto-generated method stub
+    
+  }
 }
