@@ -24,7 +24,7 @@ import Model.Storable;
 import Model.XMLStorage;
 
 
-public class MusicStore extends JFrame {
+public class MusicStore extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel artistLabel;
@@ -63,8 +63,8 @@ public class MusicStore extends JFrame {
 	public MusicStore() {
 
 	  fileChooser = new JFileChooser();
-		prevButton = new JButton("Prev");
-		nextButton = new JButton("Next");
+		prevButton = new JButton("<<");
+		nextButton = new JButton(">>");
 
 		artistLabel = new JLabel("Artist Name:");
 		artistText = new JTextField(14);
@@ -85,29 +85,8 @@ public class MusicStore extends JFrame {
 		// Let's start with File IO storage
 		setStorageType(fileIOStorage);
 
-		nextButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				// For now just show the first item
-				MusicItem item = musicStorage.getNext();
-				artistText.setText(item.getArtist());
-				albumText.setText(item.getAlbum());
-			}
-		});
-
-		prevButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				// For now just show the first item
-				MusicItem item = musicStorage.getPrevious();
-				artistText.setText(item.getArtist());
-				albumText.setText(item.getAlbum());
-			}
-		});
+		nextButton.addActionListener(this);
+		prevButton.addActionListener(this);
 	}
 	
 	public void setStorageType(Storable store) {
@@ -151,65 +130,10 @@ public class MusicStore extends JFrame {
 		Color selectedMenuColor = new Color(0xa0a0a0);
     selectfileIO.setBackground(selectedMenuColor);
 
+		fileLoad.addActionListener(this);
+		fileSave.addActionListener(this);
+		programExit.addActionListener(this);
 
-		fileLoad.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				fileChooser.setCurrentDirectory(new File("./"));
-
-				// Check if a file is selected
-				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-
-					file = fileChooser.getSelectedFile();
-					try {
-					  musicStorage.load(file);
-            
-					  // For now just show the first item
-					  MusicItem item = musicStorage.getFirstItem();
-					  artistText.setText(item.getArtist());
-					  albumText.setText(item.getAlbum());
-          } catch (PersistenceException ex) {
-            JOptionPane.showMessageDialog(frame, "Error Reading File.","Error", JOptionPane.ERROR_MESSAGE);
-          }
-				}
-			}
-		});
-
-		fileSave.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				fileChooser.setCurrentDirectory(new File("./"));
-				String artist = artistText.getText();
-				String album = albumText.getText();
-
-				// Validate user input then check if a file is selected
-				if (artist.length() != 0
-						&& album.length() != 0
-						&& fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-
-					file = fileChooser.getSelectedFile();
-					musicStorage.save(file, new MusicItem(artist, album));
-
-					// Clear user input
-					artistText.setText("");
-					albumText.setText("");
-				}
-			}
-		});
-		
-		programExit.addActionListener(new ActionListener() {
-      
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        
-        // Thanks for all the fish!
-        System.exit(0);
-      }
-    });
 		
 		selectfileIO.addActionListener(new ActionListener() {
       
@@ -280,4 +204,61 @@ public class MusicStore extends JFrame {
 		// Join the MenuBar to the frame
 		setJMenuBar(menuBar);
 	}
+
+  @Override
+  public void actionPerformed(ActionEvent event) {
+    if (event.getSource() == nextButton) {
+      
+      // For now just show the first item
+      MusicItem item = musicStorage.getNext();
+      artistText.setText(item.getArtist());
+      albumText.setText(item.getAlbum());
+    } else if (event.getSource() == prevButton) {
+      
+      // For now just show the first item
+      MusicItem item = musicStorage.getPrevious();
+      artistText.setText(item.getArtist());
+      albumText.setText(item.getAlbum());
+    } else if (event.getSource() == fileLoad) {
+    
+      fileChooser.setCurrentDirectory(new File("./"));
+  
+      // Check if a file is selected
+      if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+  
+        file = fileChooser.getSelectedFile();
+        try {
+          musicStorage.load(file);
+          
+          // For now just show the first item
+          MusicItem item = musicStorage.getFirstItem();
+          artistText.setText(item.getArtist());
+          albumText.setText(item.getAlbum());
+        } catch (PersistenceException ex) {
+          JOptionPane.showMessageDialog(frame, "Error Reading File.","Error", JOptionPane.ERROR_MESSAGE);
+        }
+      }
+    } else if (event.getSource() == fileSave) {
+
+      fileChooser.setCurrentDirectory(new File("./"));
+      String artist = artistText.getText();
+      String album = albumText.getText();
+  
+      // Validate user input then check if a file is selected
+      if (artist.length() != 0
+          && album.length() != 0
+          && fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+  
+        file = fileChooser.getSelectedFile();
+        musicStorage.save(file, new MusicItem(artist, album));
+  
+        // Clear user input
+        artistText.setText("");
+        albumText.setText("");
+      }
+    } else if (event.getSource() == programExit) {
+      // Thanks for all the fish!
+      System.exit(0);
+    }
+  }
 }
