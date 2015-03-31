@@ -16,9 +16,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import Model.FileIOStorage;
-import Model.SQLStorage;
 import Model.MusicItem;
 import Model.PersistenceException;
+import Model.SQLStorage;
 import Model.SerialStorage;
 import Model.Storable;
 import Model.XMLStorage;
@@ -47,6 +47,8 @@ public class MusicStore extends JFrame implements ActionListener {
 	private Storable XMLStorage = new XMLStorage();
 	private Storable SerialStorage = new SerialStorage();
 	private Storable SQLStorage = new SQLStorage();
+  private Color initialMenuColor;
+  private Color selectedMenuColor = new Color(0xa0a0a0);
 	
 	private static MusicStore frame;
 
@@ -101,6 +103,7 @@ public class MusicStore extends JFrame implements ActionListener {
 		// Add a few menus (i.e. contains sub-items)
 		fileMenu = new JMenu("File");
 		storageMenu = new JMenu("Storage Type");
+	  initialMenuColor = storageMenu.getBackground();
 
 		// We only want to load, save or exit
 		fileLoad = new JMenuItem("Load");
@@ -126,100 +129,42 @@ public class MusicStore extends JFrame implements ActionListener {
 		menuBar.add(fileMenu);
 		menuBar.add(storageMenu);
 		
-		Color initialMenuColor = storageMenu.getBackground();
-		Color selectedMenuColor = new Color(0xa0a0a0);
     selectfileIO.setBackground(selectedMenuColor);
 
 		fileLoad.addActionListener(this);
 		fileSave.addActionListener(this);
 		programExit.addActionListener(this);
-
-		
-		selectfileIO.addActionListener(new ActionListener() {
-      
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        setStorageType(fileIOStorage);
-        selectfileIO.setBackground(selectedMenuColor);
-        selectXML.setBackground(initialMenuColor);
-        selectSerial.setBackground(initialMenuColor);
-        selectSQL.setBackground(initialMenuColor);        
-        
-        // Clear user input
-        artistText.setText("");
-        albumText.setText("");
-      }
-    });
-		
-		selectXML.addActionListener(new ActionListener() {
-      
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        setStorageType(XMLStorage);
-        selectfileIO.setBackground(initialMenuColor);
-        selectXML.setBackground(selectedMenuColor);
-        selectSerial.setBackground(initialMenuColor);
-        selectSQL.setBackground(initialMenuColor);        
-        
-        // Clear user input
-        artistText.setText("");
-        albumText.setText("");
-        
-      }
-    });
-		
-		selectSerial.addActionListener(new ActionListener() {
-      
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        setStorageType(SerialStorage);
-        selectfileIO.setBackground(initialMenuColor);
-        selectXML.setBackground(initialMenuColor);
-        selectSerial.setBackground(selectedMenuColor);
-        selectSQL.setBackground(initialMenuColor);        
-        
-        // Clear user input
-        artistText.setText("");
-        albumText.setText("");
-      }
-    });
-		
-		selectSQL.addActionListener(new ActionListener() {
-      
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        setStorageType(SQLStorage);
-        selectfileIO.setBackground(initialMenuColor);
-        selectXML.setBackground(initialMenuColor);
-        selectSerial.setBackground(initialMenuColor);
-        selectSQL.setBackground(selectedMenuColor);
-        
-        // Clear user input
-        artistText.setText("");
-        albumText.setText("");        
-        
-      }
-    });
+		selectfileIO.addActionListener(this);
+		selectXML.addActionListener(this);
+		selectSerial.addActionListener(this);
+		selectSQL.addActionListener(this);
 
 		// Join the MenuBar to the frame
 		setJMenuBar(menuBar);
 	}
 
+	public void clearSelections() {
+    selectfileIO.setBackground(initialMenuColor);
+    selectXML.setBackground(initialMenuColor);
+    selectSerial.setBackground(initialMenuColor);
+    selectSQL.setBackground(initialMenuColor); 
+	}
+	
   @Override
-  public void actionPerformed(ActionEvent event) {
-    if (event.getSource() == nextButton) {
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == nextButton) {
       
       // For now just show the first item
       MusicItem item = musicStorage.getNext();
       artistText.setText(item.getArtist());
       albumText.setText(item.getAlbum());
-    } else if (event.getSource() == prevButton) {
+    } else if (e.getSource() == prevButton) {
       
       // For now just show the first item
       MusicItem item = musicStorage.getPrevious();
       artistText.setText(item.getArtist());
       albumText.setText(item.getAlbum());
-    } else if (event.getSource() == fileLoad) {
+    } else if (e.getSource() == fileLoad) {
     
       fileChooser.setCurrentDirectory(new File("./"));
   
@@ -238,7 +183,7 @@ public class MusicStore extends JFrame implements ActionListener {
           JOptionPane.showMessageDialog(frame, "Error Reading File.","Error", JOptionPane.ERROR_MESSAGE);
         }
       }
-    } else if (event.getSource() == fileSave) {
+    } else if (e.getSource() == fileSave) {
 
       fileChooser.setCurrentDirectory(new File("./"));
       String artist = artistText.getText();
@@ -256,9 +201,45 @@ public class MusicStore extends JFrame implements ActionListener {
         artistText.setText("");
         albumText.setText("");
       }
-    } else if (event.getSource() == programExit) {
+    } else if (e.getSource() == programExit) {
       // Thanks for all the fish!
       System.exit(0);
+    } else if (e.getSource() == selectfileIO) {
+      
+      setStorageType(fileIOStorage);
+      clearSelections();
+      selectfileIO.setBackground(selectedMenuColor);
+      
+      // Clear user input
+      artistText.setText("");
+      albumText.setText("");
+    } else if (e.getSource() == selectXML) {
+
+      setStorageType(XMLStorage);
+      clearSelections();
+      selectXML.setBackground(selectedMenuColor);
+      
+      // Clear user input
+      artistText.setText("");
+      albumText.setText("");
+    } else if (e.getSource() == selectSerial) {
+
+      setStorageType(SerialStorage);
+      clearSelections();
+      selectSerial.setBackground(selectedMenuColor);
+      
+      // Clear user input
+      artistText.setText("");
+      albumText.setText("");
+    } else if (e.getSource() == selectSQL) {
+
+      setStorageType(SQLStorage);
+      clearSelections();
+      selectSQL.setBackground(selectedMenuColor);
+      
+      // Clear user input
+      artistText.setText("");
+      albumText.setText("");
     }
   }
 }
