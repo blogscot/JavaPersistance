@@ -15,17 +15,20 @@ public class FileIOStorage extends Storable {
 
   public void load(File filename) {
 
+    String line = "";
+    String values[];
+
     // Using try with resources, Java 7 feature
     try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-      String artistLine;
       
       // Clear the list before populating new data
       musicList.clear();
 
       // Read in all music items into memory
-      while ((artistLine = br.readLine()) != null) {
-        String albumLine = br.readLine();
-        musicList.add(new MusicItem(artistLine, albumLine));
+      while ((line = br.readLine()) != null) {
+        values = line.split(", ");
+        
+        musicList.add(new MusicItem(values[0], values[1]));
       }
 
       musicCollectionLength = musicList.size();
@@ -44,13 +47,16 @@ public class FileIOStorage extends Storable {
 
   public void save(File filename) {
 
+    String line = "";
+    String s = ", ";   // the comma separator
+    
     // Using try with resources, Java 7 feature
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, false))) {
 
       for (MusicItem item: musicList) {
-        bw.write(item.getArtist());
-        bw.newLine();
-        bw.write(item.getAlbum());
+        // TODO Replace fields with real data
+        line = item.getArtist() + s + item.getAlbum() + s + "1976" + s + "Rock";
+        bw.write(line);
         bw.newLine();
       }
     } catch (IOException ex) {
