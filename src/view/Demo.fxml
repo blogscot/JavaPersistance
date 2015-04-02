@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="266.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="builder.Controller">
+   <children>
+      <Label layoutX="40.0" layoutY="65.0" text="Artist:" />
+      <Label layoutX="40.0" layoutY="104.0" text="Album:" />
+      <Button layoutX="185.0" layoutY="212.0" mnemonicParsing="false" onAction="#add" text="Add" />
+      <TextField fx:id="artistText" layoutX="85.0" layoutY="61.0" prefHeight="25.0" prefWidth="229.0" />
+      <TextField fx:id="albumText" layoutX="85.0" layoutY="100.0" prefHeight="25.0" prefWidth="229.0" />
+      <Button layoutX="155.0" layoutY="141.0" mnemonicParsing="false" onAction="#previous" text="&lt;&lt;" />
+      <Button layoutX="212.0" layoutY="141.0" mnemonicParsing="false" onAction="#next" text="&gt;&gt;" />
+      <Button layoutX="300.0" layoutY="212.0" mnemonicParsing="false" onAction="#add" text="Clear" />
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="370.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#load" text="Load" />
+                  <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Storage">
+               <items>
+                  <RadioMenuItem fx:id="fileIO" mnemonicParsing="false" selected="true" text="File IO">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="Storage" />
+                     </toggleGroup>
+                  </RadioMenuItem>
+                  <RadioMenuItem mnemonicParsing="false" onAction="#xml" text="XML" toggleGroup="$Storage" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#serial" text="Serial" toggleGroup="$Storage" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#sqlite" text="SQLite" toggleGroup="$Storage" />
+               </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Button layoutX="236.0" layoutY="212.0" mnemonicParsing="false" onAction="#add" text="Delete" />
+   </children>
+</AnchorPane>

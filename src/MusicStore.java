@@ -15,13 +15,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import Model.FileIOStorage;
-import Model.MusicItem;
-import Model.PersistenceException;
-import Model.SQLStorage;
-import Model.SerialStorage;
-import Model.Storable;
-import Model.XMLStorage;
+import model.FileIOStorage;
+import model.MusicItem;
+import model.PersistenceException;
+import model.SQLStorage;
+import model.SerialStorage;
+import model.Storable;
+import model.XMLStorage;
 
 
 public class MusicStore extends JFrame implements ActionListener {

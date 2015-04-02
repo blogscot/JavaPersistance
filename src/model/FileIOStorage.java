@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,7 +27,6 @@ public class FileIOStorage extends Storable {
       // Read in all music items into memory
       while ((line = br.readLine()) != null) {
         values = line.split(", ");
-        
         musicList.add(new MusicItem(values[0], values[1]));
       }
 
