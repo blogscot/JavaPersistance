@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="266.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="builder.Controller">
+<AnchorPane prefHeight="275.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="builder.Controller">
    <children>
       <Label layoutX="40.0" layoutY="65.0" text="Artist:" />
       <Label layoutX="40.0" layoutY="104.0" text="Album:" />
-      <Button layoutX="185.0" layoutY="212.0" mnemonicParsing="false" onAction="#add" text="Add" />
       <TextField fx:id="artistText" layoutX="85.0" layoutY="61.0" prefHeight="25.0" prefWidth="229.0" />
       <TextField fx:id="albumText" layoutX="85.0" layoutY="100.0" prefHeight="25.0" prefWidth="229.0" />
-      <Button layoutX="155.0" layoutY="141.0" mnemonicParsing="false" onAction="#previous" text="&lt;&lt;" />
-      <Button layoutX="212.0" layoutY="141.0" mnemonicParsing="false" onAction="#next" text="&gt;&gt;" />
-      <Button layoutX="300.0" layoutY="212.0" mnemonicParsing="false" onAction="#add" text="Clear" />
+      <TextField fx:id="yearText" layoutX="85.0" layoutY="139.0" prefHeight="25.0" prefWidth="64.0" />
+      <TextField fx:id="genreText" layoutX="85.0" layoutY="178.0" prefHeight="25.0" prefWidth="155.0" />
+      <Button layoutX="136.0" layoutY="224.0" mnemonicParsing="false" onAction="#previous" text="&lt;&lt;" />
+      <Button layoutX="201.0" layoutY="224.0" mnemonicParsing="false" onAction="#next" text="&gt;&gt;" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="370.0">
         <menus>
           <Menu text="_File">
@@ -75,6 +75,7 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="236.0" layoutY="212.0" mnemonicParsing="false" onAction="#add" text="Delete" />
+      <Label layoutX="42.0" layoutY="182.0" text="Genre:" />
+      <Label layoutX="43.0" layoutY="143.0" text="Year:" />
    </children>
 </AnchorPane>

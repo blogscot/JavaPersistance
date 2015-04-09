@@ -18,9 +18,11 @@ public class MusicItem implements Serializable {
   // Default constructor
   public MusicItem() {}
   
-  public MusicItem(String artist, String album) {
+  public MusicItem(String artist, String album, int year, String genre) {
     this.artist = artist;
     this.album = album;
+    this.year = year;
+    this.genre = genre;
   }
 
   public String getArtist() {

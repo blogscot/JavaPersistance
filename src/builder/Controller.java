@@ -36,11 +36,21 @@ public class Controller implements Initializable {
   @FXML
   private TextField albumText;
   
+  @FXML
+  private TextField yearText;
+  
+  @FXML 
+  private TextField genreText;
+  
+  
 private boolean isUserInputValid() {
     String artist = artistText.getText();
     String album = albumText.getText();
+    String year = yearText.getText();
+    String genre = genreText.getText();
     
-    if (artist.length() != 0 && album.length() != 0) { 
+    if (artist.length() != 0 && album.length() != 0
+        && year.length() != 0 && genre.length() != 0) { 
       return true; 
     }
     return false;
@@ -49,6 +59,8 @@ private boolean isUserInputValid() {
 private void clearUserInputs() {
   artistText.setText("");
   albumText.setText("");
+  yearText.setText("");
+  genreText.setText("");
 }
 
   private void setStorageType(Storable store) {
@@ -67,8 +79,7 @@ private void clearUserInputs() {
         musicStorage.load(filename);
         
         MusicItem item = musicStorage.getFirstItem();
-        artistText.setText(item.getArtist());
-        albumText.setText(item.getAlbum());
+        displayItem(item);
       } catch (PersistenceException e) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error");
@@ -120,8 +131,10 @@ private void clearUserInputs() {
     if (isUserInputValid()) {
       String artist = artistText.getText();
       String album = albumText.getText();
+      int year = Integer.parseInt(yearText.getText());
+      String genre = genreText.getText();
 
-      musicStorage.add(new MusicItem(artist, album));
+      musicStorage.add(new MusicItem(artist, album, year, genre));
       clearUserInputs();
     }
   }
@@ -133,15 +146,18 @@ private void clearUserInputs() {
   }
   
   public void next() {
-    MusicItem item = musicStorage.getNext();
+    displayItem(musicStorage.getNext());
+  }
+
+  private void displayItem(MusicItem item) {
     artistText.setText(item.getArtist());
     albumText.setText(item.getAlbum());
+    yearText.setText(Integer.toString(item.getYear()));
+    genreText.setText(item.getGenre());
   }
   
   public void previous() {
-    MusicItem item = musicStorage.getPrevious();
-    artistText.setText(item.getArtist());
-    albumText.setText(item.getAlbum());
+    displayItem(musicStorage.getPrevious());
   }
   
   @Override

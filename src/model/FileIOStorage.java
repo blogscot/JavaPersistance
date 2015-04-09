@@ -27,7 +27,7 @@ public class FileIOStorage extends Storable {
       // Read in all music items into memory
       while ((line = br.readLine()) != null) {
         values = line.split(", ");
-        musicList.add(new MusicItem(values[0], values[1]));
+        musicList.add(new MusicItem(values[0], values[1], Integer.parseInt(values[2]), values[3]));
       }
 
       musicCollectionLength = musicList.size();
@@ -53,8 +53,7 @@ public class FileIOStorage extends Storable {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, false))) {
 
       for (MusicItem item: musicList) {
-        // TODO Replace fields with real data
-        line = item.getArtist() + s + item.getAlbum() + s + "1976" + s + "Rock";
+        line = item.getArtist() + s + item.getAlbum() + s + item.getYear() + s + item.getGenre();
         bw.write(line);
         bw.newLine();
       }

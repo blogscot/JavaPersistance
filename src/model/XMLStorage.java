@@ -93,12 +93,7 @@ public class XMLStorage extends Storable {
   @Override
   public void add(MusicItem item) {
     
-    MusicItem item1 = new MusicItem();
-    item1.setArtist(item.getArtist());
-    item1.setAlbum(item.getAlbum());
-    item1.setYear(2015);
-    item1.setGenre("progressive-rock");
-    musicList.add(item1);
+    musicList.add(new MusicItem(item.getAlbum(), item.getAlbum(), item.getYear(), item.getGenre()));
     
     // Recalculate new List size    
     musicCollectionLength = musicList.size();
