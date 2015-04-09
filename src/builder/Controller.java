@@ -74,6 +74,7 @@ private void clearUserInputs() {
         alert.setTitle("Error");
         alert.setHeaderText("Load File Error");
         alert.setContentText("There was an error loading: " + filename);
+        alert.showAndWait();
       }
     }
   }
@@ -90,6 +91,7 @@ private void clearUserInputs() {
       alert.setTitle("Information Dialog");
       alert.setHeaderText(null);
       alert.setContentText("File Save Successful");
+      alert.showAndWait();
     }
   }
   
@@ -122,6 +124,12 @@ private void clearUserInputs() {
       musicStorage.add(new MusicItem(artist, album));
       clearUserInputs();
     }
+  }
+  
+  public void delete() {}
+
+  public void clear() {
+    clearUserInputs();
   }
   
   public void next() {
