@@ -8,15 +8,33 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * 
+ * The Database Manager class.
+ * 
+ * This class contains database helper methods for a SQLite database.
+ * This class uses the singleton pattern to ensure there can only be
+ * one database connection active.
+ * 
+ * @author Iain Diamond
+ * @version 10/04/2015
+ * 
+ */
+
 final public class DBManager {
 
   private Connection con = null;
 
-  // Using default private, package scope
+  // Using default (private, package) scope
   DBManager() {
     create();
   }
 
+  /**
+   * Connect to the SQLite database
+   * 
+   * @return the connection object
+   */
   private Connection connect() {
 
     try {
@@ -32,6 +50,12 @@ final public class DBManager {
     return con;
   }
 
+  /**
+   * Creates a new connection if none exists otherwise the
+   * existing connection is returned
+   * 
+   * @return the connection object
+   */
   private Connection getConnection() {
     if (con == null) {
       return connect();
@@ -40,7 +64,9 @@ final public class DBManager {
   }
 
   /**
-   * Creates a table in the local database
+   * Creates a new table in the local database. Fails silently
+   * if the table already exists.
+   * 
    */
   private void create() {
 
@@ -56,11 +82,15 @@ final public class DBManager {
       stmt.executeUpdate(sql);
       stmt.close();
     } catch (Exception e) {
-      // Most of the time the user will be working with a pre-existing database,
+      // Most of the time the user will be working with a an existing database,
       // so fail silently.
     }
   }
 
+  /**
+   * Drops a table in the local database.
+   * 
+   */
   public void drop() {
 
     Connection con = getConnection();
@@ -77,6 +107,11 @@ final public class DBManager {
     System.out.println("Table dropped successfully");
   }
 
+  /**
+   * Stores a new music item in the local database.
+   * 
+   * @param item
+   */
   public void save(MusicItem item) {
 
     Connection con = getConnection();
@@ -101,6 +136,12 @@ final public class DBManager {
     }
   }
 
+  /**
+   * Returns a list of all the music items in the local database.
+   * 
+   * @return an array list of music items
+   * @throws SQLException
+   */
   public ArrayList<MusicItem> selectAll() throws SQLException {
 
     ArrayList<MusicItem> list = new ArrayList<>();
@@ -125,6 +166,10 @@ final public class DBManager {
     return list;
   }
 
+  /**
+   * Closes the database connection.
+   * 
+   */
   public void close() {
     try {
       Connection con = getConnection();

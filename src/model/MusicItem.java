@@ -4,6 +4,18 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * 
+ * The MusicItem class.
+ * 
+ * This class contains the data definition for a music item.
+ * Each item can be stored using File IO, XML, Serialisation,
+ * and within an SQL database.
+ * 
+ * @author Iain Diamond
+ * @version 10/04/2015
+ * 
+ */
 
 @XmlRootElement(name = "MusicItem")
 @XmlType(propOrder = { "artist", "album", "year", "genre" })
@@ -52,7 +64,7 @@ public class MusicItem implements Serializable {
 
   @Override
   public String toString() {
-    return "MusicItem [ArtistName=" + artist + ", AlbumName=" + album
-        + "]";
+    return "MusicItem [artist=" + artist + ", album=" + album + ", year="
+        + year + ", genre=" + genre + "]";
   }
 }

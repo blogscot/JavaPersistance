@@ -20,8 +20,25 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * 
+ * The XMLStorage class.
+ * 
+ * This class loads and saves XML storage files.
+ * The user may also add new music items to the music list.
+ * 
+ * @author Iain Diamond
+ * @version 10/04/2015
+ * 
+ */
+
 public class XMLStorage extends Storable {
 
+  /**
+   * Loads the file into the music list using JAXB
+   * 
+   * @param filename the storage file
+   */
   public void loadWithJaxB(File filename) throws PersistenceException {
 
     JAXBContext context;
@@ -40,6 +57,11 @@ public class XMLStorage extends Storable {
     }
   }
   
+  /**
+   * Loads the file into the music list using XPath
+   * 
+   * @param filename the storage file
+   */
   @Override
   public void load(File filename) throws PersistenceException {
     
@@ -90,6 +112,10 @@ public class XMLStorage extends Storable {
     }
   }
 
+  /**
+   * Adds a music item into the music list
+   * 
+   */
   @Override
   public void add(MusicItem item) {
     
@@ -99,6 +125,11 @@ public class XMLStorage extends Storable {
     musicCollectionLength = musicList.size();
   }
 
+  /**
+   * Saves the music list in the file
+   * 
+   * @param filename the storage file
+   */
   @Override
   public void save(File filename) {
 

@@ -3,6 +3,20 @@ package model;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * 
+ * The Storable abstract class.
+ * 
+ * This class provides the abstract files for a Storable type class, i.e.
+ * load and save storage files, plus add music items to a music list.
+ * 
+ * Methods for indexing through the music list are provided. 
+ * 
+ * @author Iain Diamond
+ * @version 10/04/2015
+ * 
+ */
+
 public abstract class Storable {
   
   protected ArrayList<MusicItem> musicList = new ArrayList<>();

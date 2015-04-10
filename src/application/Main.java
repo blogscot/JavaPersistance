@@ -7,6 +7,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import builder.Controller;
 
+/**
+ * 
+ * The Java Persistence Application main class.
+ * 
+ * This main class bootstraps the JavaFX application, demonstrating
+ * File IO, XML, Serialisation and SQLite Database persistence.
+ * 
+ * @author Iain Diamond
+ * @version 10/04/2015
+ * 
+ */
 
 public class Main extends Application {
 
@@ -25,7 +36,7 @@ public class Main extends Application {
 			Controller controller = (Controller)loader.getController();
 			controller.setStage(Stage);
 			
-			Stage.setTitle("JavaPersistence");
+			Stage.setTitle("Java Persistence");
 			Stage.setScene(scene);
 			Stage.show();
 		} catch(Exception e) {

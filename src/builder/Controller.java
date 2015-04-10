@@ -19,16 +19,28 @@ import model.SerialStorage;
 import model.Storable;
 import model.XMLStorage;
 
+/**
+ * 
+ * The Controller class.
+ * 
+ * This class constructs the Java Persistence GUI and adds action
+ * listeners for the menu items and buttons.
+ * 
+ * @author Iain Diamond
+ * @version 10/04/2015
+ * 
+ */
 public class Controller implements Initializable {
   
+  // The Storage types
   private Storable musicStorage;
   private Storable fileIOStorage = new FileIOStorage();
   private Storable XMLStorage = new XMLStorage();
   private Storable SerialStorage = new SerialStorage();
   private Storable SQLStorage = new SQLStorage();  
   
-  Stage stage;
-  FileChooser fileChooser = new FileChooser();
+  private Stage stage;
+  private FileChooser fileChooser = new FileChooser();
 
   @FXML
   private TextField artistText;
@@ -42,31 +54,14 @@ public class Controller implements Initializable {
   @FXML 
   private TextField genreText;
   
-  
-private boolean isUserInputValid() {
-    String artist = artistText.getText();
-    String album = albumText.getText();
-    String year = yearText.getText();
-    String genre = genreText.getText();
-    
-    if (artist.length() != 0 && album.length() != 0
-        && year.length() != 0 && genre.length() != 0) { 
-      return true; 
-    }
-    return false;
-  }  
 
-private void clearUserInputs() {
-  artistText.setText("");
-  albumText.setText("");
-  yearText.setText("");
-  genreText.setText("");
-}
-
-  private void setStorageType(Storable store) {
-    this.musicStorage = store;
-  }
-  
+/**
+   * The user selected load.
+   * 
+   *  Get a filename from the user and load the file contents 
+   *  using the current storage type.
+   * 
+   */
   public void load() {
 
     fileChooser.setTitle("Open File");
@@ -90,6 +85,13 @@ private void clearUserInputs() {
     }
   }
   
+  /**
+   * The user selected save.
+   * 
+   *  Get a filename from the user and save the file using the 
+   *  current storage type.
+   * 
+   */
   public void save() {
     fileChooser.setTitle("Save File");
     fileChooser.setInitialDirectory(new File("./"));
@@ -106,26 +108,50 @@ private void clearUserInputs() {
     }
   }
   
+  /**
+   * The user has quit the application.
+   * 
+   */
   public void exit() {
     System.exit(0);
   }
   
+  
+  /**
+   * The user has selected File IO storage type.
+   * 
+   */
   public void fileIO() {
     setStorageType(fileIOStorage);
   }
   
+  /**
+   * The user has selected XML storage type.
+   * 
+   */
   public void xml() {
     setStorageType(XMLStorage);
   }
-  
+ 
+  /**
+   * The user has selected serialisation storage type.
+   * 
+   */
   public void serial() {
     setStorageType(SerialStorage);
   }
   
+  /**
+   * The user has selected SQLite storage type.
+   */
   public void sqlite() {
     setStorageType(SQLStorage);
   }
   
+  /**
+   * Adds a new music item to the list.
+   * 
+   */
   public void add() {
 
     if (isUserInputValid()) {
@@ -139,16 +165,54 @@ private void clearUserInputs() {
     }
   }
   
+  // TODO add delete music item functionality
   public void delete() {}
 
+  /**
+   * Clear the GUI TextFields
+   * 
+   */
   public void clear() {
     clearUserInputs();
   }
   
+  /**
+   * Displays the next music item in the list.
+   * 
+   */
   public void next() {
     displayItem(musicStorage.getNext());
   }
 
+  public void previous() {
+    displayItem(musicStorage.getPrevious());
+  }
+
+  /**
+   * Sets the default storage type
+   * 
+   */
+  @Override
+  public void initialize(URL arg0, ResourceBundle arg1) {
+    setStorageType(fileIOStorage);
+  }
+
+  /**
+   * This method is called by the main class to set the application
+   * stage instance, used by the fileChooser
+   * 
+   * @param stage the main application stage
+   */
+  public void setStage(Stage stage) {
+    this.stage = stage;
+  }
+
+  /**
+   * Updates the GUI TextFields with properties of 
+   * the music item parameter.
+   * 
+   * @param item a music item
+   */
   private void displayItem(MusicItem item) {
     artistText.setText(item.getArtist());
     albumText.setText(item.getAlbum());
@@ -156,16 +220,41 @@ private void clearUserInputs() {
     genreText.setText(item.getGenre());
   }
   
-  public void previous() {
-    displayItem(musicStorage.getPrevious());
-  }
-  
-  @Override
-  public void initialize(URL arg0, ResourceBundle arg1) {
-    setStorageType(fileIOStorage);
+  /**
+   * Validates the GUI TextFields
+   * 
+   * @return true when all fields are set
+   */
+  private boolean isUserInputValid() {
+      String artist = artistText.getText();
+      String album = albumText.getText();
+      String year = yearText.getText();
+      String genre = genreText.getText();
+      
+      if (artist.length() != 0 && album.length() != 0
+          && year.length() != 0 && genre.length() != 0) { 
+        return true; 
+      }
+      return false;
+    }
+
+  /**
+   * Clears the GUI Textfields
+   * 
+   */
+  private void clearUserInputs() {
+    artistText.setText("");
+    albumText.setText("");
+    yearText.setText("");
+    genreText.setText("");
   }
 
-  public void setStage(Stage stage) {
-    this.stage = stage;
-  }
+  /**
+   * Sets the class field with the storage type
+   * 
+   * @param store the storage type
+   */
+    private void setStorageType(Storable store) {
+      this.musicStorage = store;
+    }
 }

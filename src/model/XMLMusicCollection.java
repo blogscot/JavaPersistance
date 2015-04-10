@@ -5,6 +5,18 @@ import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * 
+ * The XMLMusicCollection class.
+ * 
+ * This class contains the XML music list definition.
+ * Getter and Setter methods are provided. 
+ * 
+ * @author Iain Diamond
+ * @version 10/04/2015
+ * 
+ */
+
 @XmlRootElement
 public class XMLMusicCollection {
 
