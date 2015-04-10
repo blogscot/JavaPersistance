@@ -26,8 +26,11 @@ public class SQLStorage extends Storable {
   @Override
   public void load(File filename) throws PersistenceException {
 
+    // Clear the list before populating new data
+    musicList.clear();
+    
     try {
-      musicList = db.selectAll();
+      musicList = db.load(filename);
       musicCollectionLength = musicList.size();
     } catch (SQLException e) {
       throw new PersistenceException();
@@ -41,17 +44,16 @@ public class SQLStorage extends Storable {
   @Override
   public void add(MusicItem item) {
     musicList.add(item);
-    db.save(item);
     
     // Recalculate new List size
     musicCollectionLength = musicList.size();    
   }
 
   /**
-   * The Liskov Substitution Principle is being bent here.
-   * 
-   * This is a stub function
+   * Saves the music list into a database file
    */
   @Override
-  public void save(File filename) { }
+  public void save(File filename) { 
+    db.save(musicList, filename);
+  }
 }
