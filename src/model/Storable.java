@@ -18,8 +18,10 @@ import java.util.ArrayList;
  */
 
 public abstract class Storable {
-
-  protected ArrayList<MusicItem> musicList = new ArrayList<>();
+  
+  // The application has a single shared music collection that may be persisted in
+  // multiple formats.
+  protected static ArrayList<MusicItem> musicList = new ArrayList<>();
   protected int currentItemIndex = 0;
   protected int musicCollectionLength = 0;
 
