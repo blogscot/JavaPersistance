@@ -25,6 +25,7 @@ public abstract class Storable {
 
   public abstract void load(File filename) throws PersistenceException;
   public abstract void add(MusicItem item);
+  public abstract void updateCurrentItem();
   public abstract void save(File filename);
 
   /**
@@ -86,5 +87,16 @@ public abstract class Storable {
       return getItem(currentItemIndex);
     }
     return new MusicItem("", "", 0, "");
+  }
+  
+  /**
+   * Removes the current music item from the music list
+   * 
+   */
+  public void removeCurrentItem() {
+    musicList.remove(currentItemIndex);
+
+    // Recalculate new List size
+    musicCollectionLength = musicList.size();
   }
 }

@@ -82,4 +82,10 @@ public class SerialStorage extends Storable {
       e.printStackTrace();
     }
   }
+
+  @Override
+  public void updateCurrentItem() {
+    // TODO Auto-generated method stub
+    
+  }
 }

@@ -165,8 +165,26 @@ public class Controller implements Initializable {
     }
   }
   
-  // TODO add delete music item functionality
-  public void delete() {}
+  // TODO add update music item functionality
+  public void update() {
+    // Prevent the user from trying to edit a empty item
+    if (isUserInputValid()) {
+      musicStorage.updateCurrentItem();
+    }
+  }
+  
+  /**
+   * Deletes a music item from the list
+   * 
+   */
+  public void delete() {
+    
+    // Prevent the user from trying to delete a empty item
+    if (isUserInputValid()) {
+      musicStorage.removeCurrentItem();
+      displayItem(musicStorage.getPrevious());
+    }
+  }
 
   /**
    * Clear the GUI TextFields

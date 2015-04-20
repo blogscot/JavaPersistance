@@ -86,4 +86,10 @@ public class FileIOStorage extends Storable {
       System.out.println("File I/O error.");
     }
   }
+
+  @Override
+  public void updateCurrentItem() {
+    // TODO Auto-generated method stub
+    
+  }
 }

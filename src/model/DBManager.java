@@ -30,6 +30,10 @@ final public class DBManager {
   // Using default (private, package) scope
   DBManager() {}
   
+  /**
+   * Resets the database connection
+   * 
+   */
   private void resetConnection() {
     con = null;
   }

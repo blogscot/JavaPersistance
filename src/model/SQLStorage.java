@@ -56,4 +56,10 @@ public class SQLStorage extends Storable {
   public void save(File filename) { 
     db.save(musicList, filename);
   }
-}
+
+  @Override
+  public void updateCurrentItem() {
+    // TODO Auto-generated method stub
+    
+  }
+  }
