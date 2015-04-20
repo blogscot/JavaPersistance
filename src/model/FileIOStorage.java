@@ -20,9 +20,7 @@ import java.io.IOException;
  */
 public class FileIOStorage extends Storable {
 
-  public FileIOStorage() {
-    // TODO Auto-generated constructor stub
-  }
+  public FileIOStorage() { }
 
   /**
    * Loads the file into the music list

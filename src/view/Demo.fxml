@@ -63,7 +63,7 @@
           </Menu>
           <Menu text="_Storage">
                <items>
-                  <RadioMenuItem fx:id="fileIO" mnemonicParsing="false" selected="true" text="File IO">
+                  <RadioMenuItem mnemonicParsing="false" onAction="#fileIO" selected="true" text="File IO">
                      <toggleGroup>
                         <ToggleGroup fx:id="Storage" />
                      </toggleGroup>

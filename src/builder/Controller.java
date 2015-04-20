@@ -56,59 +56,6 @@ public class Controller implements Initializable {
   
 
 /**
-   * The user selected load.
-   * 
-   *  Get a filename from the user and load the file contents 
-   *  using the current storage type.
-   * 
-   */
-  public void load() {
-
-    fileChooser.setTitle("Open File");
-    fileChooser.setInitialDirectory(new File("./"));
-    File filename = fileChooser.showOpenDialog(stage);
-    
-    if (filename != null) {
-      
-      try {
-        musicStorage.load(filename);
-        
-        MusicItem item = musicStorage.getFirstItem();
-        displayItem(item);
-      } catch (PersistenceException e) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Load File Error");
-        alert.setContentText("There was an error loading: " + filename);
-        alert.showAndWait();
-      }
-    }
-  }
-  
-  /**
-   * The user selected save.
-   * 
-   *  Get a filename from the user and save the file using the 
-   *  current storage type.
-   * 
-   */
-  public void save() {
-    fileChooser.setTitle("Save File");
-    fileChooser.setInitialDirectory(new File("./"));
-    File filename = fileChooser.showSaveDialog(stage);
-    
-    if (filename != null) {
-      musicStorage.save(filename);
-      
-      Alert alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("Information Dialog");
-      alert.setHeaderText(null);
-      alert.setContentText("File Save Successful");
-      alert.showAndWait();
-    }
-  }
-  
-  /**
    * The user has quit the application.
    * 
    */
@@ -149,20 +96,59 @@ public class Controller implements Initializable {
   }
   
 /**
- * Builds a MusicItem using the JFX text fields
- *   
- * @return a new music item object
- */
-  private MusicItem getCurrentItem() {
+   * The user selected load.
+   * 
+   *  Get a filename from the user and load the file contents 
+   *  using the current storage type.
+   * 
+   */
+  public void load() {
+  
+    fileChooser.setTitle("Open File");
+    fileChooser.setInitialDirectory(new File("./"));
+    File filename = fileChooser.showOpenDialog(stage);
     
-    String artist = artistText.getText();
-    String album = albumText.getText();
-    int year = Integer.parseInt(yearText.getText());
-    String genre = genreText.getText();
-    
-    return new MusicItem(artist, album, year, genre);
+    if (filename != null) {
+      
+      try {
+        musicStorage.load(filename);
+        
+        MusicItem item = musicStorage.getFirstItem();
+        displayItem(item);
+      } catch (PersistenceException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Load File Error");
+        alert.setContentText("There was an error loading: " + filename);
+        alert.showAndWait();
+      }
+    }
   }
-  /**
+
+/**
+ * The user selected save.
+ * 
+ *  Get a filename from the user and save the file using the 
+ *  current storage type.
+ * 
+ */
+public void save() {
+  fileChooser.setTitle("Save File");
+  fileChooser.setInitialDirectory(new File("./"));
+  File filename = fileChooser.showSaveDialog(stage);
+  
+  if (filename != null) {
+    musicStorage.save(filename);
+    
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Information Dialog");
+    alert.setHeaderText(null);
+    alert.setContentText("File Save Successful");
+    alert.showAndWait();
+  }
+}
+
+/**
    * Adds a new music item to the list.
    * 
    */
@@ -236,6 +222,22 @@ public class Controller implements Initializable {
   public void setStage(Stage stage) {
     this.stage = stage;
   }
+
+  /**
+   * Builds a MusicItem using the current GUI Textfields
+   *   
+   * @return a new music item object
+   */
+    private MusicItem getCurrentItem() {
+      
+      String artist = artistText.getText();
+      String album = albumText.getText();
+      int year = Integer.parseInt(yearText.getText());
+      String genre = genreText.getText();
+      
+      return new MusicItem(artist, album, year, genre);
+    }
+
 
   /**
    * Updates the GUI TextFields with properties of 
