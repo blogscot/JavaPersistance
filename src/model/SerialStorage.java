@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * 
  * The SerialStorage class.
  * 
- * This class loads and saves serialisation storage files.
- * The user may also add new music items to the music list.
+ * This class loads and saves serialisation storage files. The user may also add
+ * new music items to the music list.
  * 
  * @author Iain Diamond
  * @version 10/04/2015
@@ -22,26 +22,27 @@ import java.util.ArrayList;
  */
 
 public class SerialStorage extends Storable {
-  
+
   /**
    * Loads the file into the music list
    * 
-   * @param filename the storage file
+   * @param filename
+   *          the storage file
    */
   @SuppressWarnings("unchecked")
   @Override
   public void load(File filename) throws PersistenceException {
-    
+
     musicList.clear();
-    
-    try(FileInputStream fis = new FileInputStream(filename)) {
-      
+
+    try (FileInputStream fis = new FileInputStream(filename)) {
+
       ObjectInputStream ois = new ObjectInputStream(fis);
       musicList = (ArrayList<MusicItem>) ois.readObject();
       ois.close();
-      
+
       musicCollectionLength = musicList.size();
-      
+
     } catch (Exception e) {
       throw new PersistenceException();
     }
@@ -53,27 +54,28 @@ public class SerialStorage extends Storable {
    */
   @Override
   public void add(MusicItem item) {
-    
+
     musicList.add(item);
-    
+
     // Recalculate new List size
-    musicCollectionLength = musicList.size();    
+    musicCollectionLength = musicList.size();
   }
 
   /**
    * Saves the music list in the file
    * 
-   * @param filename the storage file
+   * @param filename
+   *          the storage file
    */
   @Override
   public void save(File filename) {
 
-    try(FileOutputStream fos = new FileOutputStream(filename)) {
-      
+    try (FileOutputStream fos = new FileOutputStream(filename)) {
+
       ObjectOutputStream oos = new ObjectOutputStream(fos);
       oos.writeObject(musicList);
       oos.close();
-      
+
     } catch (FileNotFoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -81,11 +83,5 @@ public class SerialStorage extends Storable {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-  }
-
-  @Override
-  public void updateCurrentItem() {
-    // TODO Auto-generated method stub
-    
   }
 }

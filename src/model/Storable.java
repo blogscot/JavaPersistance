@@ -7,10 +7,10 @@ import java.util.ArrayList;
  * 
  * The Storable abstract class.
  * 
- * This class provides the abstract files for a Storable type class, i.e.
- * load and save storage files, plus add music items to a music list.
+ * This class provides the abstract files for a Storable type class, i.e. load
+ * and save storage files, plus add music items to a music list.
  * 
- * Methods for indexing through the music list are provided. 
+ * Methods for indexing through the music list are provided.
  * 
  * @author Iain Diamond
  * @version 10/04/2015
@@ -18,14 +18,15 @@ import java.util.ArrayList;
  */
 
 public abstract class Storable {
-  
+
   protected ArrayList<MusicItem> musicList = new ArrayList<>();
   protected int currentItemIndex = 0;
   protected int musicCollectionLength = 0;
 
   public abstract void load(File filename) throws PersistenceException;
+
   public abstract void add(MusicItem item);
-  public abstract void updateCurrentItem();
+
   public abstract void save(File filename);
 
   /**
@@ -36,7 +37,7 @@ public abstract class Storable {
   public MusicItem getFirstItem() {
     return getItem(0);
   }
-  
+
   /**
    * Returns the MusicItem at the index position
    * 
@@ -88,7 +89,7 @@ public abstract class Storable {
     }
     return new MusicItem("", "", 0, "");
   }
-  
+
   /**
    * Removes the current music item from the music list
    * 
@@ -98,5 +99,15 @@ public abstract class Storable {
 
     // Recalculate new List size
     musicCollectionLength = musicList.size();
+  }
+
+  /**
+   * Updates the current music item
+   * 
+   * @param item
+   *          the updated music item
+   */
+  public void updateCurrentItem(MusicItem item) {
+    musicList.set(currentItemIndex, item);
   }
 }

@@ -148,6 +148,20 @@ public class Controller implements Initializable {
     setStorageType(SQLStorage);
   }
   
+/**
+ * Builds a MusicItem using the JFX text fields
+ *   
+ * @return a new music item object
+ */
+  private MusicItem getCurrentItem() {
+    
+    String artist = artistText.getText();
+    String album = albumText.getText();
+    int year = Integer.parseInt(yearText.getText());
+    String genre = genreText.getText();
+    
+    return new MusicItem(artist, album, year, genre);
+  }
   /**
    * Adds a new music item to the list.
    * 
@@ -155,21 +169,19 @@ public class Controller implements Initializable {
   public void add() {
 
     if (isUserInputValid()) {
-      String artist = artistText.getText();
-      String album = albumText.getText();
-      int year = Integer.parseInt(yearText.getText());
-      String genre = genreText.getText();
-
-      musicStorage.add(new MusicItem(artist, album, year, genre));
+      musicStorage.add(getCurrentItem());
       clearUserInputs();
     }
   }
   
-  // TODO add update music item functionality
+  /**
+   * Updates the current music item
+   * 
+   */
   public void update() {
     // Prevent the user from trying to edit a empty item
     if (isUserInputValid()) {
-      musicStorage.updateCurrentItem();
+      musicStorage.updateCurrentItem(getCurrentItem());
     }
   }
   
