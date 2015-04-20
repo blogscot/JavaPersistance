@@ -54,7 +54,7 @@ public abstract class Storable {
       return musicList.get(index);
     }
     System.err.println("MusicCollection: Invalid index value: " + index);
-    return new MusicItem("", "", 0, "");
+    return new MusicItem("", "", "", "", 0, "");
   }
 
   /**
@@ -71,7 +71,7 @@ public abstract class Storable {
       currentItemIndex = ++currentItemIndex % musicCollectionLength;
       return getItem(currentItemIndex);
     }
-    return new MusicItem("", "", 0, "");
+    return new MusicItem("", "", "", "", 0, "");
   }
 
   /**
@@ -89,7 +89,7 @@ public abstract class Storable {
       }
       return getItem(currentItemIndex);
     }
-    return new MusicItem("", "", 0, "");
+    return new MusicItem("", "", "", "", 0, "");
   }
 
   /**

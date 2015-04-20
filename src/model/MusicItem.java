@@ -18,21 +18,25 @@ import javax.xml.bind.annotation.XmlType;
  */
 
 @XmlRootElement(name = "MusicItem")
-@XmlType(propOrder = { "artist", "album", "year", "genre" })
+@XmlType(propOrder = { "artist", "album", "track", "duration", "year", "genre" })
 public class MusicItem implements Serializable {
   
   private static final long serialVersionUID = 1L;
   private String artist;
   private String album;
+  private String track;
+  private String duration;
   private int year;
   private String genre;
 
   // Default constructor
   public MusicItem() {}
   
-  public MusicItem(String artist, String album, int year, String genre) {
+  public MusicItem(String artist, String album, String track, String duration, int year, String genre) {
     this.artist = artist;
     this.album = album;
+    this.track = track;
+    this.duration = duration;
     this.year = year;
     this.genre = genre;
   }
@@ -61,10 +65,23 @@ public class MusicItem implements Serializable {
   public void setGenre(String genre) {
     this.genre = genre;
   }
+  public String getTrack() {
+    return track;
+  }
+  public void setTrack(String track) {
+    this.track = track;
+  }
+  public String getDuration() {
+    return duration;
+  }
+  public void setDuration(String duration) {
+    this.duration = duration;
+  }
 
   @Override
   public String toString() {
-    return "MusicItem [artist=" + artist + ", album=" + album + ", year="
-        + year + ", genre=" + genre + "]";
+    return "MusicItem [artist=" + artist + ", album=" + album + ", track="
+        + track + ", duration=" + duration + ", year=" + year + ", genre="
+        + genre + "]";
   }
 }

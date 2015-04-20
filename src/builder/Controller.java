@@ -27,7 +27,7 @@ import model.XMLStorage;
  * the menu items and buttons.
  * 
  * @author Iain Diamond
- * @version 10/04/2015
+ * @version 20/04/2015
  * 
  */
 public class Controller implements Initializable {
@@ -47,6 +47,12 @@ public class Controller implements Initializable {
 
   @FXML
   private TextField albumText;
+
+  @FXML
+  private TextField trackText;
+
+  @FXML
+  private TextField durationText;
 
   @FXML
   private TextField yearText;
@@ -255,10 +261,12 @@ public class Controller implements Initializable {
 
     String artist = artistText.getText();
     String album = albumText.getText();
+    String track = trackText.getText();
+    String duration = durationText.getText();
     int year = Integer.parseInt(yearText.getText());
     String genre = genreText.getText();
 
-    return new MusicItem(artist, album, year, genre);
+    return new MusicItem(artist, album, track, duration, year, genre);
   }
 
   /**
@@ -270,6 +278,8 @@ public class Controller implements Initializable {
   private void displayItem(MusicItem item) {
     artistText.setText(item.getArtist());
     albumText.setText(item.getAlbum());
+    trackText.setText(item.getTrack());
+    durationText.setText(item.getDuration());
     yearText.setText(Integer.toString(item.getYear()));
     genreText.setText(item.getGenre());
   }
@@ -280,13 +290,15 @@ public class Controller implements Initializable {
    * @return true when all fields are set
    */
   private boolean isUserInputValid() {
-    String artist = artistText.getText();
-    String album = albumText.getText();
-    String year = yearText.getText();
-    String genre = genreText.getText();
+    int artist = artistText.getText().length();
+    int album = albumText.getText().length();
+    int track = trackText.getText().length();
+    int duration = durationText.getText().length();
+    int year = yearText.getText().length();
+    int genre = genreText.getText().length();
 
-    if (artist.length() != 0 && album.length() != 0 && year.length() != 0
-        && genre.length() != 0) {
+    if (artist != 0 && album != 0 && track != 0 && duration != 0 && year != 0
+        && genre != 0) {
       return true;
     }
     return false;
@@ -299,6 +311,8 @@ public class Controller implements Initializable {
   private void clearUserInputs() {
     artistText.setText("");
     albumText.setText("");
+    trackText.setText("");
+    durationText.setText("");
     yearText.setText("");
     genreText.setText("");
   }

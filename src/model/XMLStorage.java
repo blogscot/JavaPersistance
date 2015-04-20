@@ -1,4 +1,5 @@
 package model;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,11 +25,11 @@ import org.xml.sax.SAXException;
  * 
  * The XMLStorage class.
  * 
- * This class loads and saves XML storage files.
- * The user may also add new music items to the music list.
+ * This class loads and saves XML storage files. The user may also add new music
+ * items to the music list.
  * 
  * @author Iain Diamond
- * @version 10/04/2015
+ * @version 20/04/2015
  * 
  */
 
@@ -37,7 +38,8 @@ public class XMLStorage extends Storable {
   /**
    * Loads the file into the music list using JAXB
    * 
-   * @param filename the storage file
+   * @param filename
+   *          the storage file
    */
   public void loadWithJaxB(File filename) throws PersistenceException {
 
@@ -48,32 +50,33 @@ public class XMLStorage extends Storable {
       Unmarshaller unmarshaller = context.createUnmarshaller();
       XMLMusicCollection musicCollection = (XMLMusicCollection) unmarshaller
           .unmarshal(new FileReader(filename));
-      
+
       musicList = musicCollection.getList();
       musicCollectionLength = musicList.size();
-      
+
     } catch (JAXBException | IOException e) {
       throw new PersistenceException();
     }
   }
-  
+
   /**
    * Loads the file into the music list using XPath
    * 
-   * @param filename the storage file
+   * @param filename
+   *          the storage file
    */
   @Override
   public void load(File filename) throws PersistenceException {
-    
+
     // Clear out any old stuff first
     musicList.clear();
-    
+
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     factory.setNamespaceAware(true);
     DocumentBuilder builder;
     XPath xpath = null;
     Document doc = null;
-    
+
     try {
       builder = factory.newDocumentBuilder();
       doc = builder.parse(filename);
@@ -85,29 +88,41 @@ public class XMLStorage extends Storable {
       xpath = xpathFactory.newXPath();
 
       // create XPathExpression object
-      XPathExpression expr = xpath.compile("/xmlMusicCollection/musicitem/artist/text()");
-      XPathExpression expr2 = xpath.compile("/xmlMusicCollection/musicitem/album/text()");
-      XPathExpression expr3 = xpath.compile("/xmlMusicCollection/musicitem/year/text()");
-      XPathExpression expr4 = xpath.compile("/xmlMusicCollection/musicitem/genre/text()");
+      XPathExpression artist = xpath
+          .compile("/xmlMusicCollection/musicitem/artist/text()");
+      XPathExpression album = xpath
+          .compile("/xmlMusicCollection/musicitem/album/text()");
+      XPathExpression track = xpath
+          .compile("/xmlMusicCollection/musicitem/track/text()");
+      XPathExpression duration = xpath
+          .compile("/xmlMusicCollection/musicitem/duration/text()");
+      XPathExpression year = xpath
+          .compile("/xmlMusicCollection/musicitem/year/text()");
+      XPathExpression genre = xpath
+          .compile("/xmlMusicCollection/musicitem/genre/text()");
 
       // evaluate expressions result on XML document
-      NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-      NodeList nodes2 = (NodeList) expr2.evaluate(doc, XPathConstants.NODESET);
-      NodeList nodes3 = (NodeList) expr3.evaluate(doc, XPathConstants.NODESET);
-      NodeList nodes4 = (NodeList) expr4.evaluate(doc, XPathConstants.NODESET);
+      NodeList artistNodes = (NodeList) artist.evaluate(doc, XPathConstants.NODESET);
+      NodeList albumNodes = (NodeList) album.evaluate(doc, XPathConstants.NODESET);
+      NodeList trackNodes = (NodeList) track.evaluate(doc, XPathConstants.NODESET);
+      NodeList durationNodes = (NodeList) duration.evaluate(doc, XPathConstants.NODESET);
+      NodeList yearNodes = (NodeList) year.evaluate(doc, XPathConstants.NODESET);
+      NodeList genreNodes = (NodeList) genre.evaluate(doc, XPathConstants.NODESET);
 
-      for (int i = 0; i < nodes.getLength(); i++) {
+      for (int i = 0; i < artistNodes.getLength(); i++) {
         MusicItem item = new MusicItem();
-        item.setArtist(nodes.item(i).getNodeValue());
-        item.setAlbum(nodes2.item(i).getNodeValue());
-        item.setYear(Integer.parseInt(nodes3.item(i).getNodeValue()));
-        item.setGenre(nodes4.item(i).getNodeValue());
+        item.setArtist(artistNodes.item(i).getNodeValue());
+        item.setAlbum(albumNodes.item(i).getNodeValue());
+        item.setTrack(trackNodes.item(i).getNodeValue());
+        item.setDuration(durationNodes.item(i).getNodeValue());
+        item.setYear(Integer.parseInt(yearNodes.item(i).getNodeValue()));
+        item.setGenre(genreNodes.item(i).getNodeValue());
         musicList.add(item);
       }
       musicCollectionLength = musicList.size();
-      
-    } catch (ParserConfigurationException | SAXException | 
-        IOException |XPathExpressionException e) {
+
+    } catch (ParserConfigurationException | SAXException | IOException
+        | XPathExpressionException e) {
       throw new PersistenceException();
     }
   }
@@ -118,17 +133,19 @@ public class XMLStorage extends Storable {
    */
   @Override
   public void add(MusicItem item) {
-    
-    musicList.add(new MusicItem(item.getAlbum(), item.getAlbum(), item.getYear(), item.getGenre()));
-    
-    // Recalculate new List size    
+
+    musicList.add(new MusicItem(item.getArtist(), item.getAlbum(), 
+        item.getTrack(), item.getDuration(), item.getYear(), item.getGenre()));
+
+    // Recalculate new List size
     musicCollectionLength = musicList.size();
   }
 
   /**
    * Saves the music list in the file
    * 
-   * @param filename the storage file
+   * @param filename
+   *          the storage file
    */
   @Override
   public void save(File filename) {

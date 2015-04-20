@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * one database connection active.
  * 
  * @author Iain Diamond
- * @version 10/04/2015
+ * @version 20/04/2015
  * 
  */
 
@@ -85,8 +85,12 @@ final public class DBManager {
       stmt = con.createStatement();
       String sql = "create table musiccollection"
           + "(id int primary key," // A null value will auto-increment
-          + " artist text not null, " + " album text not null, "
-          + " year integer, " + " genre text)";
+          + " artist text not null, " 
+          + " track text not null, " 
+          + " duration text not null, " 
+          + " album text not null, "
+          + " year integer, " 
+          + " genre text)";
       stmt.executeUpdate(sql);
       stmt.close();
     } catch (Exception e) {
@@ -141,6 +145,8 @@ final public class DBManager {
       MusicItem item = new MusicItem();
       item.setArtist(rs.getString("artist"));
       item.setAlbum(rs.getString("album"));
+      item.setTrack(rs.getString("track"));
+      item.setDuration(rs.getString("duration"));
       item.setYear(rs.getInt("year"));
       item.setGenre(rs.getString("genre"));
       list.add(item);
@@ -187,12 +193,14 @@ final public class DBManager {
       stat = con.createStatement();
 
       PreparedStatement ps = con
-          .prepareStatement("insert into musiccollection values (?, ?, ?, ?, ?);");
+          .prepareStatement("insert into musiccollection values (?, ?, ?, ?, ?, ?, ?);");
 
       ps.setString(2, item.getArtist());
       ps.setString(3, item.getAlbum());
-      ps.setInt(4, item.getYear());
-      ps.setString(5, item.getGenre());
+      ps.setString(4, item.getTrack());
+      ps.setString(5, item.getDuration());
+      ps.setInt(6, item.getYear());
+      ps.setString(7, item.getGenre());
       ps.execute();
 
       stat.close();

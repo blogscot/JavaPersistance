@@ -30,7 +30,7 @@ public class Main extends Application {
 		try {
 		  FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Demo.fxml"));
 		  Parent root = (Parent)loader.load();
-			Scene scene = new Scene(root,370,290);
+			Scene scene = new Scene(root,370,300);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			Controller controller = (Controller)loader.getController();
