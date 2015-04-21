@@ -41,18 +41,6 @@ public class SQLStorage extends Storable {
   }
 
   /**
-   * Adds a music item into the music list.
-   * 
-   */
-  @Override
-  public void add(MusicItem item) {
-    musicList.add(item);
-
-    // Recalculate new List size
-    musicCollectionLength = musicList.size();
-  }
-
-  /**
    * Saves the music list into a database file.
    * 
    * @param filename

@@ -26,10 +26,33 @@ public abstract class Storable {
   protected int currentItemIndex = 0;
   protected int musicCollectionLength = 0;
 
+  /**
+   * Loads the specified file into the music list.
+   * 
+   * @param filename
+   *          the storage file
+   * @throws PersistenceException
+   */
   public abstract void load(File filename) throws PersistenceException;
 
-  public abstract void add(MusicItem item);
+  /**
+   * Adds a music item into the music list.
+   * 
+   */
+  public void add(MusicItem item) {
+    musicList.add(item);
 
+    // Recalculate new List size
+    musicCollectionLength = musicList.size();
+  }
+
+  /**
+   * Saves the music list in the specified file.
+   * 
+   * @param filename
+   *          the storage file
+   * @throws PersistenceException
+   */
   public abstract void save(File filename) throws PersistenceException;
 
   /**

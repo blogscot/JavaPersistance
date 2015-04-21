@@ -131,20 +131,6 @@ public class XMLStorage extends Storable {
   }
 
   /**
-   * Adds a music item into the music list.
-   * 
-   */
-  @Override
-  public void add(MusicItem item) {
-
-    musicList.add(new MusicItem(item.getArtist(), item.getAlbum(), 
-        item.getTrack(), item.getDuration(), item.getYear(), item.getGenre()));
-
-    // Recalculate new List size
-    musicCollectionLength = musicList.size();
-  }
-
-  /**
    * Saves the music list in the specified file using JAXB.
    * 
    * @param filename
