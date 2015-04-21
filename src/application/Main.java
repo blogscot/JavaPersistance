@@ -37,6 +37,7 @@ public class Main extends Application {
 			controller.setStage(Stage);
 			
 			Stage.setTitle("Java Persistence");
+			Stage.setResizable(false);
 			Stage.setScene(scene);
 			Stage.show();
 		} catch(Exception e) {

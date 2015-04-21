@@ -161,8 +161,8 @@ final public class DBManager {
     stmt = con.createStatement();
     String sql = "create table musiccollection"
         + "(id int primary key," // A null value will auto-increment
-        + " artist text not null, " + " track text not null, "
-        + " duration text not null, " + " album text not null, "
+        + " artist text not null, " + " album text not null, "
+        + " track text not null, " + " duration text not null, "
         + " year integer, " + " genre text)";
     stmt.executeUpdate(sql);
     stmt.close();
