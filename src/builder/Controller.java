@@ -318,9 +318,24 @@ public class Controller implements Initializable {
     int year = yearText.getText().length();
     int genre = genreText.getText().length();
 
+    
     if (artist != 0 && album != 0 && track != 0 && duration != 0 && year != 0
         && genre != 0) {
-      return true;
+
+      // Validate year
+      try {
+        int when = Integer.parseInt(yearText.getText());
+        if (when > 1900) {
+          return true;
+        }
+      } catch (NumberFormatException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Invalid Input");
+        alert.setHeaderText(null);
+        alert.setContentText("Year input is not valid.");
+        alert.showAndWait();        
+        return false;
+      }
     }
     return false;
   }
