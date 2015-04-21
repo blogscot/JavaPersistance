@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * 
  * This class contains database helper methods for a SQLite database.
  * This class uses the singleton pattern to ensure there can only be
- * one database connection active.
+ * one active database connection.
  * 
  * @author Iain Diamond
  * @version 20/04/2015
@@ -31,95 +31,6 @@ final public class DBManager {
   DBManager() {}
   
   /**
-   * Resets the database connection
-   * 
-   */
-  private void resetConnection() {
-    con = null;
-  }
-
-  /**
-   * Connect to the SQLite database
-   * 
-   * @return the connection object
-   */
-  private Connection connect() {
-
-    try {
-      Class.forName("org.sqlite.JDBC");
-      con = DriverManager.getConnection("jdbc:sqlite:"+filename);
-    } catch (ClassNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    return con;
-  }
-  
-  /**
-   * Creates a new connection if none exists otherwise the
-   * existing connection is returned
-   * 
-   * @return the connection object
-   */
-  private Connection getConnection() {
-    if (con == null) {
-      return connect();
-    }
-    return con;
-  }
-
-  /**
-   * Creates a new table in the local database. Fails silently
-   * if the table already exists.
-   * 
-   */
-  private void create() {
-
-    Connection con = getConnection();
-    Statement stmt = null;
-
-    try {
-      stmt = con.createStatement();
-      String sql = "create table musiccollection"
-          + "(id int primary key," // A null value will auto-increment
-          + " artist text not null, " 
-          + " track text not null, " 
-          + " duration text not null, " 
-          + " album text not null, "
-          + " year integer, " 
-          + " genre text)";
-      stmt.executeUpdate(sql);
-      stmt.close();
-    } catch (Exception e) {
-      // Most of the time the user will be working with a an existing database,
-      // so fail silently.
-    }
-  }
-
-  /**
-   * Drops a table in the local database.
-   * 
-   */
-  public void drop() {
-
-    Connection con = getConnection();
-    Statement stmt = null;
-    try {
-      stmt = con.createStatement();
-      String sql = "drop table musiccollection;";
-      stmt.executeUpdate(sql);
-      stmt.close();
-    } catch (Exception e) {
-      // System.err.println(e.getClass().getName() + ": " + e.getMessage());
-      // System.exit(0);
-    }
-  }
-
-  
-  /**
    * Returns a list of all the music items in the local database.
    * 
    * @return an array list of music items
@@ -127,7 +38,8 @@ final public class DBManager {
    */
   public ArrayList<MusicItem> load(File filename) throws SQLException {
   
-    // In case of multiple db files
+    // In case of multiple database files are being used it is necessary to
+    // reset the DB connection on a new load.
     resetConnection();
 
     // Store the filename
@@ -158,27 +70,135 @@ final public class DBManager {
   }
 
   /**
-   * Saves the music list into a SQLite database file.
+   * Saves the music list into the connected SQLite database file.
    * 
-   * @param list music list
-   * @param filename database file
+   * @param list the music list
+   * @param filename the database file
    */
   public void save(ArrayList<MusicItem> list, File filename) {
     
     // Store the filename
     this.filename = filename;
 
-    // This is awful, but it done this way to work in the same
-    // manner as the other storage type examples.
+    /*
+     * In order to have this application behave the same for each 
+     * of the four persistence types means that saving the DB
+     * file effectively overwrites the existing DB file.
+     * This is simulated by dropping the DB table(s) and creating
+     * it anew.
+     */
     drop();
     create();
 
     for (MusicItem item : list) {
       saveItem(item);
     }
-    
   }
   
+  /**
+   * Drops the table(s) in the local database.
+   * 
+   */
+  public void drop() {
+  
+    Connection con = getConnection();
+    Statement stmt = null;
+    try {
+      stmt = con.createStatement();
+      String sql = "drop table musiccollection;";
+      stmt.executeUpdate(sql);
+      stmt.close();
+    } catch (Exception e) {
+      // Fail silently
+    }
+  }
+
+  /**
+   * Closes the database connection.
+   * 
+   */
+  public void close(File filename) {
+    try {
+      Connection con = getConnection();
+  
+      if (con != null) {
+        con.close();
+      }
+    } catch (SQLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Creates a new table in the local database. Fails silently
+   * if the table already exists.
+   * 
+   */
+  private void create() {
+  
+    Connection con = getConnection();
+    Statement stmt = null;
+  
+    try {
+      stmt = con.createStatement();
+      String sql = "create table musiccollection"
+          + "(id int primary key," // A null value will auto-increment
+          + " artist text not null, " 
+          + " track text not null, " 
+          + " duration text not null, " 
+          + " album text not null, "
+          + " year integer, " 
+          + " genre text)";
+      stmt.executeUpdate(sql);
+      stmt.close();
+    } catch (Exception e) {
+      // Most of the time the user will be working with a an existing database,
+      // so fail silently.
+    }
+  }
+
+  /**
+   * Connects to the SQLite database, and returns the connection object.
+   * 
+   * @return the connection object
+   */
+  private Connection connect() {
+  
+    try {
+      Class.forName("org.sqlite.JDBC");
+      con = DriverManager.getConnection("jdbc:sqlite:"+filename);
+    } catch (ClassNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (SQLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return con;
+  }
+
+  /**
+   * Resets the database connection.
+   * 
+   */
+  private void resetConnection() {
+    con = null;
+  }
+
+  /**
+   * Creates a new connection if none exists otherwise the
+   * existing connection is returned.
+   * 
+   * @return the connection object
+   */
+  private Connection getConnection() {
+    if (con == null) {
+      return connect();
+    }
+    return con;
+  }
+
   /**
    * Stores a new music item in the local database.
    * 
@@ -204,23 +224,6 @@ final public class DBManager {
       ps.execute();
 
       stat.close();
-    } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Closes the database connection.
-   * 
-   */
-  public void close(File filename) {
-    try {
-      Connection con = getConnection();
-
-      if (con != null) {
-        con.close();
-      }
     } catch (SQLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

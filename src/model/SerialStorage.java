@@ -13,8 +13,9 @@ import java.util.ArrayList;
  * 
  * The SerialStorage class.
  * 
- * This class loads and saves serialisation storage files. The user may also add
- * new music items to the music list.
+ * This class loads and saves serialisation storage files. 
+ * The user may also add new music items, update existing items as well as
+ * delete items in the music list (see Storable.java).
  * 
  * @author Iain Diamond
  * @version 10/04/2015
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 public class SerialStorage extends Storable {
 
   /**
-   * Loads the file into the music list
+   * Loads the specified file into the music list.
    * 
    * @param filename
    *          the storage file
@@ -49,7 +50,7 @@ public class SerialStorage extends Storable {
   }
 
   /**
-   * Adds a music item into the music list
+   * Adds a music item into the music list.
    * 
    */
   @Override
@@ -62,7 +63,7 @@ public class SerialStorage extends Storable {
   }
 
   /**
-   * Saves the music list in the file
+   * Saves the music list in the specified file.
    * 
    * @param filename
    *          the storage file

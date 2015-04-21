@@ -25,8 +25,9 @@ import org.xml.sax.SAXException;
  * 
  * The XMLStorage class.
  * 
- * This class loads and saves XML storage files. The user may also add new music
- * items to the music list.
+ * This class loads and saves XML storage files. 
+ * The user may also add new music items, update existing items as well as
+ * delete items in the music list (see Storable.java).
  * 
  * @author Iain Diamond
  * @version 20/04/2015
@@ -36,7 +37,7 @@ import org.xml.sax.SAXException;
 public class XMLStorage extends Storable {
 
   /**
-   * Loads the file into the music list using JAXB
+   * Loads the specified file into the music list using JAXB.
    * 
    * @param filename
    *          the storage file
@@ -60,7 +61,7 @@ public class XMLStorage extends Storable {
   }
 
   /**
-   * Loads the file into the music list using XPath
+   * Loads the specified file into the music list using XPath.
    * 
    * @param filename
    *          the storage file
@@ -68,7 +69,7 @@ public class XMLStorage extends Storable {
   @Override
   public void load(File filename) throws PersistenceException {
 
-    // Clear out any old stuff first
+    // Clear the list before populating new data
     musicList.clear();
 
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -128,7 +129,7 @@ public class XMLStorage extends Storable {
   }
 
   /**
-   * Adds a music item into the music list
+   * Adds a music item into the music list.
    * 
    */
   @Override
@@ -142,7 +143,7 @@ public class XMLStorage extends Storable {
   }
 
   /**
-   * Saves the music list in the file
+   * Saves the music list in the specified file using JAXB.
    * 
    * @param filename
    *          the storage file

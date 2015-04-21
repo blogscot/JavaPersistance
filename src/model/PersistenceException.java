@@ -2,7 +2,7 @@ package model;
 
 /**
  * 
- * The storage classes uses this exception to prevent Model type exceptions
+ * The storage classes use this exception to prevent Model type exceptions
  * leaking into the View layer. 
  * 
  * @author Iain Diamond

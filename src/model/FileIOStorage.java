@@ -11,8 +11,9 @@ import java.io.IOException;
  * 
  * The FileIOStorage class.
  * 
- * This class loads and saves File IO storage files. The user may also add new
- * music items to the music list.
+ * This class loads and saves File IO storage files. 
+ * The user may also add new music items, update existing items as well as
+ * delete items in the music list (see Storable.java).
  * 
  * @author Iain Diamond
  * @version 20/04/2015
@@ -24,7 +25,7 @@ public class FileIOStorage extends Storable {
   }
 
   /**
-   * Loads the file into the music list
+   * Loads the specified file into the music list.
    * 
    * @param filename
    *          the storage file
@@ -55,7 +56,7 @@ public class FileIOStorage extends Storable {
   }
 
   /**
-   * Adds a music item into the music list
+   * Adds a music item into the music list.
    * 
    */
   public void add(MusicItem item) {
@@ -66,7 +67,7 @@ public class FileIOStorage extends Storable {
   }
 
   /**
-   * Saves the music list in the file
+   * Saves the music list in the specified file.
    * 
    * @param filename
    *          the storage file

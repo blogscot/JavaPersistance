@@ -94,30 +94,16 @@ public class Controller implements Initializable {
 
   /**
    * The user has selected SQLite storage type.
+   * 
    */
   public void sqlite() {
     setStorageType(SQLStorage);
   }
 
-  private FileChooser.ExtensionFilter getExtensionFilter() {
-    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(
-        "TXT files (*.txt)", "*.txt");
-
-    if (musicStorage instanceof XMLStorage) {
-      filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
-    } else if (musicStorage instanceof SerialStorage) {
-      filter = new FileChooser.ExtensionFilter("Serial files (*.ser)", "*.ser");
-    } else if (musicStorage instanceof SQLStorage) {
-      filter = new FileChooser.ExtensionFilter("SQLite files (*.db)", "*.db");
-    }
-
-    return filter;
-  }
-
   /**
-   * The user selected load.
+   * The user selected the load menu item.
    * 
-   * Get a filename from the user and load the file contents using the current
+   * Gets a filename from the user and loads the file contents using the current
    * storage type.
    * 
    */
@@ -149,9 +135,9 @@ public class Controller implements Initializable {
   }
 
   /**
-   * The user selected save.
+   * The user selected the save menu item.
    * 
-   * Get a filename from the user and save the file using the current storage
+   * Gets a filename from the user and saves the file using the current storage
    * type.
    * 
    */
@@ -177,7 +163,7 @@ public class Controller implements Initializable {
   }
 
   /**
-   * Adds a new music item to the list.
+   * Adds a new music item to the music list.
    * 
    */
   public void add() {
@@ -189,7 +175,7 @@ public class Controller implements Initializable {
   }
 
   /**
-   * Updates the current music item
+   * Updates the current music item.
    * 
    */
   public void update() {
@@ -200,7 +186,7 @@ public class Controller implements Initializable {
   }
 
   /**
-   * Deletes a music item from the list
+   * Deletes a music item from the music list
    * 
    */
   public void delete() {
@@ -213,7 +199,7 @@ public class Controller implements Initializable {
   }
 
   /**
-   * Clear the GUI TextFields
+   * Clears the GUI TextFields
    * 
    */
   public void clear() {
@@ -221,13 +207,17 @@ public class Controller implements Initializable {
   }
 
   /**
-   * Displays the next music item in the list.
+   * Displays the next item in the music list.
    * 
    */
   public void next() {
     displayItem(musicStorage.getNext());
   }
 
+  /**
+   * Displays the previous item in the music list.
+   * 
+   */
   public void previous() {
     displayItem(musicStorage.getPrevious());
   }
@@ -243,7 +233,7 @@ public class Controller implements Initializable {
 
   /**
    * This method is called by the main class to set the application stage
-   * instance, used by the fileChooser
+   * instance, used by the fileChooser.
    * 
    * @param stage
    *          the main application stage
@@ -253,9 +243,31 @@ public class Controller implements Initializable {
   }
 
   /**
-   * Builds a MusicItem using the current GUI Textfields
+   * Returns an extension filter depending on the current storage type.
+   * Default storage type is set to file IO.
    * 
-   * @return a new music item object
+   * @return an extension filter
+   */
+  private FileChooser.ExtensionFilter getExtensionFilter() {
+    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(
+        "TXT files (*.txt)", "*.txt");
+  
+    if (musicStorage instanceof XMLStorage) {
+      filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
+    } else if (musicStorage instanceof SerialStorage) {
+      filter = new FileChooser.ExtensionFilter("Serial files (*.ser)", "*.ser");
+    } else if (musicStorage instanceof SQLStorage) {
+      filter = new FileChooser.ExtensionFilter("SQLite files (*.db)", "*.db");
+    }
+  
+    return filter;
+  }
+
+  /**
+   * Builds a MusicItem using the current GUI TextFields
+   * It is assumed that the inputs are already validated.
+   * 
+   * @return a new music item
    */
   private MusicItem getCurrentItem() {
 
@@ -270,7 +282,7 @@ public class Controller implements Initializable {
   }
 
   /**
-   * Updates the GUI TextFields with properties of the music item parameter.
+   * Updates the GUI TextFields with the music item properties.
    * 
    * @param item
    *          a music item
@@ -285,7 +297,7 @@ public class Controller implements Initializable {
   }
 
   /**
-   * Validates the GUI TextFields
+   * Validates the GUI TextFields.
    * 
    * @return true when all fields are set
    */
@@ -305,7 +317,7 @@ public class Controller implements Initializable {
   }
 
   /**
-   * Clears the GUI Textfields
+   * Clears the GUI TextFields
    * 
    */
   private void clearUserInputs() {

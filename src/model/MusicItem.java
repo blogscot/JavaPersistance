@@ -10,10 +10,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * This class contains the data definition for a music item.
  * Each item can be stored using File IO, XML, Serialisation,
- * and within an SQL database.
+ * and within an SQLite database.
  * 
  * @author Iain Diamond
- * @version 10/04/2015
+ * @version 20/04/2015
  * 
  */
 

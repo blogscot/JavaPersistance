@@ -7,20 +7,21 @@ import java.util.ArrayList;
  * 
  * The Storable abstract class.
  * 
- * This class provides the abstract files for a Storable type class, i.e. load
- * and save storage files, plus add music items to a music list.
+ * This class provides abstract methods and implementation for each Storable 
+ * type class, i.e. load and save storage files, plus add, update and delete
+ * music items in the music list.
  * 
- * Methods for indexing through the music list are provided.
+ * Methods for indexing through the music list are also provided.
  * 
  * @author Iain Diamond
- * @version 10/04/2015
+ * @version 21/04/2015
  * 
  */
 
 public abstract class Storable {
   
-  // The application has a single shared music collection that may be persisted in
-  // multiple formats.
+  // The application has a single shared music collection that may be 
+  // persisted in multiple formats.
   protected static ArrayList<MusicItem> musicList = new ArrayList<>();
   protected int currentItemIndex = 0;
   protected int musicCollectionLength = 0;
@@ -32,24 +33,24 @@ public abstract class Storable {
   public abstract void save(File filename);
 
   /**
-   * Returns the first MusicItem in the Music Collection
+   * Returns the first music item in the music list.
    * 
-   * @return a MusicItem instance
+   * @return a music item
    */
   public MusicItem getFirstItem() {
     return getItem(0);
   }
 
   /**
-   * Returns the MusicItem at the index position
+   * Returns the music item at the index position.
    * 
    * @param index
-   *          the MusicCollection index
-   * @return a MusicItem instance
+   *          the music list index
+   * @return a music item
    */
   private MusicItem getItem(int index) {
 
-    // Check a collection exists and the index is valid
+    // Check the collection exists and the index is valid
     if (musicCollectionLength > 0 && index < musicCollectionLength) {
       return musicList.get(index);
     }
@@ -58,9 +59,9 @@ public abstract class Storable {
   }
 
   /**
-   * Returns the next MusicItem in the Music Collection
+   * Returns the next music item in the music list.
    * 
-   * @return a MusicItem instance
+   * @return a music item
    */
   public MusicItem getNext() {
 
@@ -75,9 +76,9 @@ public abstract class Storable {
   }
 
   /**
-   * Returns the previous MusicItem in the Music Collection
+   * Returns the previous music item in the music list.
    * 
-   * @return a MusicItem instance
+   * @return a music item
    */
   public MusicItem getPrevious() {
 
@@ -93,7 +94,7 @@ public abstract class Storable {
   }
 
   /**
-   * Removes the current music item from the music list
+   * Removes the current music item from the music list.
    * 
    */
   public void removeCurrentItem() {
@@ -104,7 +105,7 @@ public abstract class Storable {
   }
 
   /**
-   * Updates the current music item
+   * Updates the current music item.
    * 
    * @param item
    *          the updated music item
