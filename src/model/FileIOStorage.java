@@ -29,8 +29,9 @@ public class FileIOStorage extends Storable {
    * 
    * @param filename
    *          the storage file
+   * @throws PersistenceException
    */
-  public void load(File filename) {
+  public void load(File filename) throws PersistenceException {
 
     String line = "";
     String values[];
@@ -51,7 +52,7 @@ public class FileIOStorage extends Storable {
       musicCollectionLength = musicList.size();
 
     } catch (IOException ex) {
-      ex.printStackTrace();
+      throw new PersistenceException();
     }
   }
 
@@ -71,8 +72,9 @@ public class FileIOStorage extends Storable {
    * 
    * @param filename
    *          the storage file
+   * @throws PersistenceException
    */
-  public void save(File filename) {
+  public void save(File filename) throws PersistenceException {
 
     String line = "";
     String s = ", "; // the comma separator
@@ -87,7 +89,7 @@ public class FileIOStorage extends Storable {
         bw.newLine();
       }
     } catch (IOException ex) {
-      System.out.println("File I/O error.");
+      throw new PersistenceException();
     }
   }
 }

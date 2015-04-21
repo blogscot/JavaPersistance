@@ -152,7 +152,16 @@ public class Controller implements Initializable {
     File filename = fileChooser.showSaveDialog(stage);
 
     if (filename != null) {
-      musicStorage.save(filename);
+      
+      try {
+        musicStorage.save(filename);
+      } catch (PersistenceException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Save File Error");
+        alert.setContentText("There was an error saving: " + filename);
+        alert.showAndWait();
+      }
 
       Alert alert = new Alert(AlertType.INFORMATION);
       alert.setTitle("Information Dialog");

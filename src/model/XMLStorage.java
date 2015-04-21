@@ -41,6 +41,7 @@ public class XMLStorage extends Storable {
    * 
    * @param filename
    *          the storage file
+   * @throws PersistenceException
    */
   public void loadWithJaxB(File filename) throws PersistenceException {
 
@@ -65,6 +66,7 @@ public class XMLStorage extends Storable {
    * 
    * @param filename
    *          the storage file
+   * @throws PersistenceException
    */
   @Override
   public void load(File filename) throws PersistenceException {
@@ -147,9 +149,10 @@ public class XMLStorage extends Storable {
    * 
    * @param filename
    *          the storage file
+   * @throws PersistenceException
    */
   @Override
-  public void save(File filename) {
+  public void save(File filename) throws PersistenceException {
 
     // create musicCollection
     XMLMusicCollection musicCollection = new XMLMusicCollection();
@@ -162,8 +165,7 @@ public class XMLStorage extends Storable {
 
       mrsh.marshal(musicCollection, filename);
     } catch (JAXBException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      throw new PersistenceException();
     }
   }
 }

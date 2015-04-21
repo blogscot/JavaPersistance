@@ -2,7 +2,6 @@ package model;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,6 +28,7 @@ public class SerialStorage extends Storable {
    * 
    * @param filename
    *          the storage file
+   * @throws PersistenceException
    */
   @SuppressWarnings("unchecked")
   @Override
@@ -44,7 +44,7 @@ public class SerialStorage extends Storable {
 
       musicCollectionLength = musicList.size();
 
-    } catch (Exception e) {
+    } catch (ClassNotFoundException | IOException e) {
       throw new PersistenceException();
     }
   }
@@ -67,9 +67,10 @@ public class SerialStorage extends Storable {
    * 
    * @param filename
    *          the storage file
+   * @throws PersistenceException
    */
   @Override
-  public void save(File filename) {
+  public void save(File filename) throws PersistenceException {
 
     try (FileOutputStream fos = new FileOutputStream(filename)) {
 
@@ -77,12 +78,8 @@ public class SerialStorage extends Storable {
       oos.writeObject(musicList);
       oos.close();
 
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch ( IOException e) {
+      throw new PersistenceException();
     }
   }
 }

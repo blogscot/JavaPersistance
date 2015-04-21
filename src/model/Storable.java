@@ -30,7 +30,7 @@ public abstract class Storable {
 
   public abstract void add(MusicItem item);
 
-  public abstract void save(File filename);
+  public abstract void save(File filename) throws PersistenceException;
 
   /**
    * Returns the first music item in the music list.

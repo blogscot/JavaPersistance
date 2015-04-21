@@ -7,9 +7,9 @@ import java.sql.SQLException;
  * 
  * The SQLStorage class.
  * 
- * This class loads from the local SQLite database. 
- * The user may also add new music items, update existing items as well as
- * delete items in the music list (see Storable.java).
+ * This class loads from the local SQLite database. The user may also add new
+ * music items, update existing items as well as delete items in the music list
+ * (see Storable.java).
  * 
  * @author Iain Diamond
  * @version 10/04/2015
@@ -24,6 +24,7 @@ public class SQLStorage extends Storable {
    * 
    * @param filename
    *          the storage file
+   * @throws PersistenceException
    */
   @Override
   public void load(File filename) throws PersistenceException {
@@ -34,7 +35,7 @@ public class SQLStorage extends Storable {
     try {
       musicList = db.load(filename);
       musicCollectionLength = musicList.size();
-    } catch (SQLException e) {
+    } catch (SQLException | ClassNotFoundException e) {
       throw new PersistenceException();
     }
   }
@@ -53,9 +54,18 @@ public class SQLStorage extends Storable {
 
   /**
    * Saves the music list into a database file.
+   * 
+   * @param filename
+   *          the storage file
+   * @throws PersistenceException
    */
   @Override
-  public void save(File filename) {
-    db.save(musicList, filename);
+  public void save(File filename) throws PersistenceException {
+
+    try {
+      db.save(musicList, filename);
+    } catch (SQLException | ClassNotFoundException e) {
+      throw new PersistenceException();
+    }
   }
 }
